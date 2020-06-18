@@ -20,6 +20,7 @@
         <pmd.plugin.version>3.11.0</pmd.plugin.version>
     </properties>
 
+    <!--Generate documentation-->
     <reporting>
         <plugins>
             <plugin>
