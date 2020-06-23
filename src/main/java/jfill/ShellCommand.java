@@ -5,9 +5,9 @@ import org.jline.reader.impl.LineReaderImpl;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -32,41 +32,42 @@ public final class ShellCommand {
      * @param pattern Pattern
      * @return Shell command
      */
-    public String join(final String[] args, Pattern pattern) throws IOException {
+    public String join(final Arguments arguments, Pattern pattern, final Cache cache) throws IOException {
         var words = new ArrayList<String>(16);
-        var cache = new HashMap<String, String>();
-        var config = this.cache.read();
-        for (var arg : args) {
-            var matcher = pattern.matcher(arg);
-            if (matcher.matches()) {
-                var word = matcher.group(1);
-                if (!cache.containsKey(word)) {
-                    var value = this.getValue(config, word);
-                    words.add(value);
-                    cache.put(word, value);
-                } else {
-                    words.add(word);
+        //cache already inserted values.
+        var savedValues = new HashMap<String, String>();
+        for (var arg : arguments) {
+            if (arg.hasTag()) {
+                final TagGroup group = new TagGroup(arguments, arg.getTag());
+                if (!group.getKeys().isEmpty()) {
+                    final List<String> history = cache.pairHistory(group);
+                    if (!history.isEmpty()) {
+                        final String value = this.inputHandler.getValue(String.join(", ", group.getKeys()), history);
+                        final String[] split = value.split(", ");
+                        if (split.length != history.size()) {
+                            this.collectSeparately(savedValues, arg.getKey(), group, history);
+                        } else {
+
+                        }
+                    }
+
                 }
-            } else {
-                words.add(arg);
             }
         }
         return String.join(" ", words);
     }
 
-    private String getValue(final Json config, final String word) {
-        //has tag
-        if (word.contains(":")) {
-            return null;
-        } else {
-            final Json cachedValues = config.at(Config.NO_TAG).at(word,Json.nil());
-            if (!cachedValues.isNull()) {
-                return this.inputHandler.getValue(word, cachedValues(cachedValues));
-            } else {
-                return this.inputHandler.getValue(word, Collections.emptyList());
-            }
+    private void collectSeparately(final Map<String, String> savedValues, final String key, final TagGroup group, final List<String> history) {
+        for (int i = 0; i < group.getKeys().size(); i++) {
+            final String value1 = this.inputHandler.getValue(key, suggestions(history, i));
+            savedValues.put(key, value1);
         }
     }
+
+    private static List<String> suggestions(final List<String> history, final int index) {
+        return history.stream().map(line -> line.split(", ")[index]).collect(Collectors.toList());
+    }
+
 
     private static List<String> cachedValues(final Json json) {
         return json.asList()

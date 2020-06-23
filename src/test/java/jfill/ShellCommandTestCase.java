@@ -14,7 +14,6 @@ final class ShellCommandTestCase {
 
     @Test
     void testShellCommand() throws IOException {
-/*
         Assertions.assertEquals(
                 "psql -h localhost -p 123 -u postgres",
                 new ShellCommand().join(
@@ -26,6 +25,5 @@ final class ShellCommandTestCase {
                         )
                 )
         );
-*/
     }
 }
