@@ -1,2 +1,2 @@
 # jfillin
- fill-in your command and execute written in Pure Java 11 
+ fill-in your command and execute it. Written in Pure Java 11 
