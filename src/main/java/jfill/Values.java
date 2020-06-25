@@ -6,20 +6,18 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public final class Values {
+final class Values {
 
     private final Config config;
 
-    private InputHandler inputHandler;
+    private final InputHandler inputHandler;
 
-    public Values(final InputHandler input, final Config config) {
+    Values(final InputHandler input, final Config config) {
         this.config = config;
         this.inputHandler = input;
     }
 
-    public Map<String, Map<String, String>> resolve(final Arguments arguments, final String defaultTag) {
-        //cache already inserted values.
-        //key is tag ,value is map where key is cli key and value is value from input
+    Map<String, Map<String, String>> resolve(final Arguments arguments, final String defaultTag) {
         var cachedValues = new HashMap<String, Map<String, String>>();
         cachedValues.computeIfAbsent(defaultTag, s -> new HashMap<>());
         for (var arg : arguments) {
@@ -73,7 +71,9 @@ public final class Values {
 
     private void chooseValuesByOne(final Map<String, Map<String, String>> cachedValues, final TagGroup group, final List<Map<String, String>> history) {
         group.getKeys().forEach(key -> {
-            var value = this.inputHandler.getValue(key, this.prepareSuggestions(history, key));
+            var value = this.inputHandler.getValue(
+                    key, this.prepareSuggestions(history, key)
+            );
             cachedValues.get(group.getTag()).put(key, value);
         });
     }

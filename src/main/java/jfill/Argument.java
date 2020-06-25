@@ -2,32 +2,41 @@ package jfill;
 
 import java.util.Optional;
 
+/**
+ * Cli argument.
+ */
 public final class Argument {
 
+    /**
+     * Key.
+     */
     private final String key;
 
+    /**
+     * Tag.
+     */
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<String> tag;
 
-    public Argument(final String key, final String tag) {
+    Argument(final String key, final String tag) {
         this.key = key;
         this.tag = Optional.of(tag);
     }
 
-    public Argument(final String key) {
+    Argument(final String key) {
         this.key = key;
         this.tag = Optional.empty();
     }
 
-    public String getKey() {
+    String getKey() {
         return key;
     }
 
-    public boolean hasTag() {
+    boolean hasTag() {
         return this.tag.isPresent();
     }
 
-    public String getTag() {
+    String getTag() {
         return this.tag.orElseThrow();
     }
 }

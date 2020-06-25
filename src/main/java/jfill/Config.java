@@ -9,11 +9,11 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public final class Config {
+final class Config {
 
     private final Json cache;
 
-    public Config(final String path) throws IOException {
+    Config(final String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
             this.cache = Json.read(Files.readString(Path.of(path)));
         } else {

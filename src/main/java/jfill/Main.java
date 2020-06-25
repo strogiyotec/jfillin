@@ -3,24 +3,48 @@ package jfill;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.TerminalBuilder;
 
-import java.io.IOException;
-import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-public final class Main {
-    public static final Pattern FILLIN_PTN = Pattern.compile("\\{\\{(.*)}}");
+public final class Main implements Callable<Void> {
 
-    public static void main(String[] args) throws IOException {
-        final Values shellCommand = new Values(
-                new InputHandler(
-                        new LineReaderImpl(
-                                TerminalBuilder.terminal()
-                        )
-                ),
-                new Config(UTIL.CONFIG_PATH)
+    private final String[] args;
+
+    private final String defaultTag;
+
+    private final Pattern pattern;
+
+    public Main(final String[] args, final String defaultTag, final Pattern pattern) {
+        this.args = args;
+        this.defaultTag = defaultTag;
+        this.pattern = pattern;
+    }
+
+    public static void main(String[] args) throws Exception {
+        new Main(args, Defaults.NO_TAG, Defaults.FILLIN_PTN).call();
+    }
+
+    @Override
+    public Void call() throws Exception {
+        System.out.print(
+                new Command(
+                        this.pattern,
+                        this.args,
+                        new Values(
+                                new InputHandler(
+                                        new LineReaderImpl(
+                                                TerminalBuilder.terminal()
+                                        )
+                                ),
+                                new Config(
+                                        Defaults.CONFIG_PATH
+                                )
+                        ),
+                        this.defaultTag
+                )
         );
-        final Map<String, Map<String, String>> resolvedValues = shellCommand.resolve(new Arguments(args, FILLIN_PTN), "noTag");
-        final String noTag = new Command().fill(FILLIN_PTN, args, resolvedValues, "noTag");
-        System.out.println(noTag);
+
+        //we need callable in order to throw exception
+        return null;
     }
 }

@@ -3,14 +3,17 @@ package jfill;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-public final class Command {
+final class Command {
 
-    public String fill(
+    private final String command;
+
+    Command(
             final Pattern pattern,
             final String[] args,
-            final Map<String, Map<String, String>> resolvedValues,
+            final Values values,
             final String defaultTag
     ) {
+        final Map<String, Map<String, String>> resolvedValues = values.resolve(new Arguments(args, pattern), defaultTag);
         var builder = new StringBuilder();
         for (var arg : args) {
             var matcher = pattern.matcher(arg);
@@ -27,6 +30,11 @@ public final class Command {
                 builder.append(arg).append(" ");
             }
         }
-        return builder.toString();
+        this.command = builder.toString();
+    }
+
+    @Override
+    public String toString() {
+        return this.command;
     }
 }

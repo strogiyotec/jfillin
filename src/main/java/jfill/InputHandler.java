@@ -5,20 +5,20 @@ import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.List;
 
-public final class InputHandler {
+final class InputHandler {
 
     private final LineReaderImpl reader;
 
-    public InputHandler(final LineReaderImpl reader) {
+    InputHandler(final LineReaderImpl reader) {
         this.reader = reader;
     }
 
-    public String getValue(final String word, final List<String> suggestions) {
+    String getValue(final String word, final List<String> suggestions) {
         this.reader.setCompleter(new StringsCompleter(suggestions));
         return reader.readLine(String.format("%s: ", word));
     }
 
-    public String getValue(final List<String> words, final List<String> suggestions) {
+    String getValue(final List<String> words, final List<String> suggestions) {
         this.reader.setCompleter(new StringsCompleter(suggestions));
         final String prompt = String.join(", ", words);
         return reader.readLine(String.format("%s: ", prompt));

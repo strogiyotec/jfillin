@@ -9,7 +9,7 @@ public final class Arguments implements Iterable<Argument> {
 
     private final List<Argument> arguments;
 
-    public Arguments(final String[] params, final Pattern pattern) {
+    Arguments(final String[] params, final Pattern pattern) {
         final List<Argument> arguments = new ArrayList<>(16);
         for (final String param : params) {
             var matcher = pattern.matcher(param);
