@@ -13,7 +13,7 @@ public final class TagGroup {
     TagGroup(final Arguments arguments, final String tag) {
         var cache = new HashMap<String, Boolean>();
         var keys = new ArrayList<String>(16);
-        for (final Argument arg : arguments) {
+        for (var arg : arguments) {
             if (!cache.containsKey(arg.getKey()) && arg.hasTag() && arg.getTag().equals(tag)) {
                 cache.put(arg.getKey(), true);
                 keys.add(arg.getKey());

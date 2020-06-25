@@ -26,7 +26,7 @@ public final class Main implements Callable<Void> {
 
     @Override
     public Void call() throws Exception {
-        System.out.print(
+        System.out.println(
                 new Command(
                         this.pattern,
                         this.args,

@@ -20,7 +20,7 @@ final class InputHandler {
 
     String getValue(final List<String> words, final List<String> suggestions) {
         this.reader.setCompleter(new StringsCompleter(suggestions));
-        final String prompt = String.join(", ", words);
+        var prompt = String.join(", ", words);
         return reader.readLine(String.format("%s: ", prompt));
     }
 }

@@ -1,5 +1,6 @@
 package jfill;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -12,7 +13,7 @@ final class Command {
             final String[] args,
             final Values values,
             final String defaultTag
-    ) {
+    ) throws IOException {
         final Map<String, Map<String, String>> resolvedValues = values.resolve(new Arguments(args, pattern), defaultTag);
         var builder = new StringBuilder();
         for (var arg : args) {

@@ -13,17 +13,43 @@ final class Config {
 
     private final Json cache;
 
+    private final String path;
+
     Config(final String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
             this.cache = Json.read(Files.readString(Path.of(path)));
         } else {
-            this.cache = Json.make("{\"noTagValue:{}\"}");
+            this.cache = Json.make("{\n" +
+                    "\t\"noTag\": {\n" +
+                    "\t\t\"values\": []\n" +
+                    "\t}\n" +
+                    "}\n");
         }
+        this.path = path;
     }
 
-    public List<String> history(final String word, final String tag) {
+    boolean addEntry(final String tag, final Map<String, String> entry) {
+        if (entry.isEmpty()) {
+            return false;
+        }
         if (this.cache.has(tag)) {
-            final List<Json> cache = this.cache.at(tag).at("values").asJsonList();
+            var list = this.cache.at(tag).at("values").asJsonList();
+            final boolean has = list.stream().anyMatch(json -> json.asMap().entrySet().containsAll(entry.entrySet()));
+            if (!has) {
+                this.cache.at(tag).at("values").add(Json.make(entry));
+                return true;
+            }
+        } else {
+            this.cache.set(tag, Json.object().set("values", Json.array()));
+            this.cache.at(tag).at("values").add(Json.make(entry));
+            return true;
+        }
+        return false;
+    }
+
+    List<String> history(final String word, final String tag) {
+        if (this.cache.has(tag)) {
+            var cache = this.cache.at(tag).at("values").asJsonList();
             return cache.stream()
                     .filter(json -> json.has(word))
                     .map(json -> json.at(word).asString())
@@ -33,13 +59,13 @@ final class Config {
         }
     }
 
-    public List<Map<String, String>> historyPerGroup(final TagGroup group) {
+    List<Map<String, String>> historyPerGroup(final TagGroup group) {
         if (this.cache.has(group.getTag())) {
             var values = new ArrayList<Map<String, String>>();
             var cache = this.cache.at(group.getTag()).at("values").asJsonList();
             for (var json : cache) {
                 var groupValues = new HashMap<String, String>();
-                for (final String key : group.getKeys()) {
+                for (var key : group.getKeys()) {
                     if (json.has(key)) {
                         groupValues.put(key, json.at(key).asString());
                     }
@@ -54,7 +80,7 @@ final class Config {
         }
     }
 
-    void save(final Json json) {
-        System.out.println(json.asString());
+    void save() throws IOException {
+        Files.write(Paths.get(this.path), this.cache.toString().getBytes());
     }
 }

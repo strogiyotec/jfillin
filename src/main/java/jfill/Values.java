@@ -1,9 +1,11 @@
 package jfill;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 final class Values {
@@ -17,7 +19,7 @@ final class Values {
         this.inputHandler = input;
     }
 
-    Map<String, Map<String, String>> resolve(final Arguments arguments, final String defaultTag) {
+    Map<String, Map<String, String>> resolve(final Arguments arguments, final String defaultTag) throws IOException {
         var cachedValues = new HashMap<String, Map<String, String>>();
         cachedValues.computeIfAbsent(defaultTag, s -> new HashMap<>());
         for (var arg : arguments) {
@@ -66,6 +68,10 @@ final class Values {
                         );
             }
         }
+        if (!cachedValues.isEmpty()) {
+            cachedValues.forEach(this.config::addEntry);
+        }
+        this.config.save();
         return cachedValues;
     }
 

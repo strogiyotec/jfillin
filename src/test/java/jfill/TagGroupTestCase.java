@@ -7,7 +7,7 @@ final class TagGroupTestCase {
 
     @Test
     void testGroup() {
-        final TagGroup group = new TagGroup(
+        var group = new TagGroup(
                 new Arguments(
                         new String[]{
                                 "psql",
