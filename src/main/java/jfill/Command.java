@@ -1,7 +1,6 @@
 package jfill;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
@@ -12,7 +11,7 @@ final class Command implements Callable<Void> {
     Command(
             final Pattern pattern,
             final String[] args,
-            final Map<String, Map<String, String>> values,
+            final ValuesByTagStorage storage,
             final String defaultTag
     ) {
         this.command = () -> {
@@ -24,9 +23,9 @@ final class Command implements Callable<Void> {
                     var split = key.split(":");
                     //doesn't have tag
                     if (split.length == 1) {
-                        resolvedArgs.add(values.get(defaultTag).get(key));
+                        resolvedArgs.add(storage.get(defaultTag, key));
                     } else {
-                        resolvedArgs.add(values.get(split[0]).get(split[1]).trim());
+                        resolvedArgs.add(storage.get(split[0], split[1]));
                     }
                 } else {
                     resolvedArgs.add(arg);

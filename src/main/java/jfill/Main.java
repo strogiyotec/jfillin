@@ -4,7 +4,6 @@ import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.TerminalBuilder;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
@@ -23,6 +22,7 @@ public final class Main implements Callable<Void> {
     }
 
     public static void main(String[] args) throws Exception {
+        System.out.println(System.getProperty("org.jline.terminal.dumb.color"));
         new Main(
                 args,
                 Defaults.NO_TAG,
@@ -30,13 +30,22 @@ public final class Main implements Callable<Void> {
         ).call();
     }
 
+    private static void persistValues(
+            final ValuesByTagStorage storage,
+            final Config config
+    ) throws IOException {
+        storage.persist(config);
+        config.save();
+    }
+
     @Override
     public Void call() throws Exception {
         var config = new Config(Defaults.CONFIG_PATH);
-        var resolved = new Values(
+        var storage = new ValuesByTagStorage();
+        new ResolvedValues(
                 new InputHandler(
                         new LineReaderImpl(
-                                TerminalBuilder.terminal()
+                                TerminalBuilder.builder().type("xterm").build()
                         )
                 ),
                 config
@@ -45,25 +54,17 @@ public final class Main implements Callable<Void> {
                         this.args,
                         this.pattern
                 ),
+                storage,
                 this.defaultTag
         );
         new Command(
                 this.pattern,
                 this.args,
-                resolved,
+                storage,
                 this.defaultTag
         ).call();
-        persistValues(resolved, config);
+        persistValues(storage, config);
         //we need callable in order to throw exception
         return null;
-    }
-
-    private static void persistValues(
-            final Map<String,
-                    Map<String, String>> values,
-            final Config config
-    ) throws IOException {
-        values.forEach(config::addEntry);
-        config.save();
     }
 }
