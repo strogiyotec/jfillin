@@ -19,11 +19,7 @@ final class Config {
         if (Files.exists(Paths.get(path))) {
             this.cache = Json.read(Files.readString(Path.of(path)));
         } else {
-            this.cache = Json.make("{\n" +
-                    "\t\"noTag\": {\n" +
-                    "\t\t\"values\": []\n" +
-                    "\t}\n" +
-                    "}\n");
+            this.cache = Json.object().set("noTag", Json.object().set("values", Json.array()));
         }
         this.path = path;
     }

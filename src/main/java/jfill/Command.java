@@ -1,41 +1,49 @@
 package jfill;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-final class Command {
+final class Command implements Callable<Void> {
 
-    private final String command;
+    private final Callable<String> command;
 
     Command(
             final Pattern pattern,
             final String[] args,
-            final Values values,
+            final Map<String, Map<String, String>> values,
             final String defaultTag
-    ) throws IOException {
-        final Map<String, Map<String, String>> resolvedValues = values.resolve(new Arguments(args, pattern), defaultTag);
-        var builder = new StringBuilder();
-        for (var arg : args) {
-            var matcher = pattern.matcher(arg);
-            if (matcher.find()) {
-                var key = matcher.group(1);
-                var split = key.split(":");
-                //doesn't have tag
-                if (split.length == 1) {
-                    builder.append(resolvedValues.get(defaultTag).get(key)).append(" ");
+    ) {
+        this.command = () -> {
+            var resolvedArgs = new ArrayList<String>(args.length);
+            for (var arg : args) {
+                var matcher = pattern.matcher(arg);
+                if (matcher.find()) {
+                    var key = matcher.group(1);
+                    var split = key.split(":");
+                    //doesn't have tag
+                    if (split.length == 1) {
+                        resolvedArgs.add(values.get(defaultTag).get(key));
+                    } else {
+                        resolvedArgs.add(values.get(split[0]).get(split[1]).trim());
+                    }
                 } else {
-                    builder.append(resolvedValues.get(split[0]).get(split[1])).append(" ");
+                    resolvedArgs.add(arg);
                 }
-            } else {
-                builder.append(arg).append(" ");
             }
-        }
-        this.command = builder.toString();
+            var process = new ProcessBuilder()
+                    .command(resolvedArgs)
+                    .inheritIO()
+                    .start();
+            process.waitFor();
+            return null;
+        };
     }
 
     @Override
-    public String toString() {
-        return this.command;
+    public Void call() throws Exception {
+        this.command.call();
+        return null;
     }
 }

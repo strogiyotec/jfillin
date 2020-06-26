@@ -3,6 +3,8 @@ package jfill;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.TerminalBuilder;
 
+import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
@@ -21,30 +23,47 @@ public final class Main implements Callable<Void> {
     }
 
     public static void main(String[] args) throws Exception {
-        new Main(args, Defaults.NO_TAG, Defaults.FILLIN_PTN).call();
+        new Main(
+                args,
+                Defaults.NO_TAG,
+                Defaults.FILLIN_PTN
+        ).call();
     }
 
     @Override
     public Void call() throws Exception {
-        System.out.println(
-                new Command(
-                        this.pattern,
+        var config = new Config(Defaults.CONFIG_PATH);
+        var resolved = new Values(
+                new InputHandler(
+                        new LineReaderImpl(
+                                TerminalBuilder.terminal()
+                        )
+                ),
+                config
+        ).resolve(
+                new Arguments(
                         this.args,
-                        new Values(
-                                new InputHandler(
-                                        new LineReaderImpl(
-                                                TerminalBuilder.terminal()
-                                        )
-                                ),
-                                new Config(
-                                        Defaults.CONFIG_PATH
-                                )
-                        ),
-                        this.defaultTag
-                )
+                        this.pattern
+                ),
+                this.defaultTag
         );
-
+        new Command(
+                this.pattern,
+                this.args,
+                resolved,
+                this.defaultTag
+        ).call();
+        persistValues(resolved, config);
         //we need callable in order to throw exception
         return null;
+    }
+
+    private static void persistValues(
+            final Map<String,
+                    Map<String, String>> values,
+            final Config config
+    ) throws IOException {
+        values.forEach(config::addEntry);
+        config.save();
     }
 }

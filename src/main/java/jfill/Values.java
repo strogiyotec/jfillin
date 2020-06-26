@@ -1,11 +1,9 @@
 package jfill;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 final class Values {
@@ -19,7 +17,7 @@ final class Values {
         this.inputHandler = input;
     }
 
-    Map<String, Map<String, String>> resolve(final Arguments arguments, final String defaultTag) throws IOException {
+    Map<String, Map<String, String>> resolve(final Arguments arguments, final String defaultTag) {
         var cachedValues = new HashMap<String, Map<String, String>>();
         cachedValues.computeIfAbsent(defaultTag, s -> new HashMap<>());
         for (var arg : arguments) {
@@ -33,20 +31,19 @@ final class Values {
                         var filteredSuggestions = this.filter(history, group.getKeys());
                         //if group history has all keys from group
                         if (!filteredSuggestions.isEmpty()) {
-                            var values = this.inputHandler.getValue(group.getKeys(), this.prepareSuggestions(history)).split(", ");
+                            var values = this.inputHandler.getValue(group.getKeys(), this.prepareSuggestions(filteredSuggestions)).split(",");
                             //if user didn't choose suggestion or didn't write all values
-                            if (values.length != history.size()) {
+                            if (values.length != group.getKeys().size()) {
                                 this.chooseValuesByOne(cachedValues, group, history);
                                 continue;
                             } else {
                                 //if user chose suggestion
                                 for (int i = 0; i < group.getKeys().size(); i++) {
-                                    cachedValues.get(group.getTag()).put(group.getKeys().get(i), values[i]);
+                                    cachedValues.get(group.getTag()).put(group.getKeys().get(i), values[i].trim());
                                 }
                                 continue;
                             }
-                        } else if (!history.isEmpty()) {
-                            //otherwise fill values by one
+                        } else {
                             this.chooseValuesByOne(cachedValues, group, history);
                             continue;
                         }
@@ -57,21 +54,19 @@ final class Values {
                 }
             }
             if (!cachedValues.get(defaultTag).containsKey(arg.getKey())) {
+                var value = this.inputHandler
+                        .getValue(
+                                arg.getKey(),
+                                this.config.history(
+                                        arg.getKey(), defaultTag)
+                        );
                 cachedValues.get(defaultTag)
                         .put(
                                 arg.getKey(),
-                                this.inputHandler.getValue(
-                                        arg.getKey(),
-                                        this.config.history(
-                                                arg.getKey(), defaultTag)
-                                )
+                                value.trim()
                         );
             }
         }
-        if (!cachedValues.isEmpty()) {
-            cachedValues.forEach(this.config::addEntry);
-        }
-        this.config.save();
         return cachedValues;
     }
 
@@ -80,7 +75,7 @@ final class Values {
             var value = this.inputHandler.getValue(
                     key, this.prepareSuggestions(history, key)
             );
-            cachedValues.get(group.getTag()).put(key, value);
+            cachedValues.get(group.getTag()).put(key, value.trim());
         });
     }
 
@@ -91,7 +86,7 @@ final class Values {
     }
 
     private List<String> prepareSuggestions(final List<Map<String, String>> history) {
-        return history.stream().map(map -> String.join(", ", map.values())).collect(Collectors.toList());
+        return history.stream().map(map -> String.join(",", map.values())).collect(Collectors.toList());
     }
 
     private List<String> prepareSuggestions(final List<Map<String, String>> history, final String key) {
