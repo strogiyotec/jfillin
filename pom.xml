@@ -71,34 +71,33 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M4</version>
             </plugin>
-<!--
+            <!--            <plugin>
+                            <groupId>org.apache.maven.plugins</groupId>
+                            <artifactId>maven-shade-plugin</artifactId>
+                            <version>3.2.2</version>
+                            <executions>
+                                <execution>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>shade</goal>
+                                    </goals>
+                                    <configuration>
+                                        <finalName>jfill</finalName>
+                                        <minimizeJar>true</minimizeJar>
+                                        <transformers>
+                                            <transformer
+                                                    implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                                <mainClass>jfill.Main</mainClass>
+                                            </transformer>
+                                        </transformers>
+                                    </configuration>
+                                </execution>
+                            </executions>
+                        </plugin>-->
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.2</version>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                        <configuration>
-                            <finalName>jriddler</finalName>
-                            <transformers>
-                                <transformer
-                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>jfill.Main</mainClass>
-                                </transformer>
-                            </transformers>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
--->
-            <plugin>
-                <groupId>com.oracle.substratevm</groupId>
+                <groupId>org.graalvm.nativeimage</groupId>
                 <artifactId>native-image-maven-plugin</artifactId>
-                <version>1.0.0-rc14</version>
+                <version>20.0.0</version>
                 <executions>
                     <execution>
                         <goals>

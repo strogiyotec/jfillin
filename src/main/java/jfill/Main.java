@@ -22,7 +22,6 @@ public final class Main implements Callable<Void> {
     }
 
     public static void main(String[] args) throws Exception {
-        System.out.println(System.getProperty("org.jline.terminal.dumb.color"));
         new Main(
                 args,
                 Defaults.NO_TAG,

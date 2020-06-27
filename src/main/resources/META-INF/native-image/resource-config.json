@@ -1,0 +1,7 @@
+{
+  "resources":[
+    {"pattern":"\\Qorg/jline/utils/capabilities.txt\\E"}, 
+    {"pattern":"\\Qorg/jline/utils/xterm.caps\\E"}
+  ],
+  "bundles":[]
+}
