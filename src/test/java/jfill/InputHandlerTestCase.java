@@ -24,6 +24,14 @@ final class InputHandlerTestCase {
     @Test
     void testInput() {
         final InputHandler handler = new InputHandler(reader);
-        Assertions.assertEquals(handler.getValue("port", Collections.emptyList()), "user value");
+        Assertions.assertEquals(
+                handler.getValue(
+                        "port",
+                        new Suggestions.Plain(
+                                Collections.emptyList()
+                        )
+                ),
+                "user value"
+        );
     }
 }

@@ -2,34 +2,36 @@ package jfill;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
-final class ResolvedValues {
+/**
+ * Fill command with user specified values.
+ */
+final class Values {
 
     private final Config config;
 
     private final InputHandler inputHandler;
 
-    ResolvedValues(final InputHandler input, final Config config) {
+    Values(final InputHandler input, final Config config) {
         this.config = config;
         this.inputHandler = input;
     }
 
-    void resolve(final Arguments arguments, final ValuesByTagStorage storage, final String defaultTag) {
+    Storage resolve(final Arguments arguments, final String defaultTag) {
+        final Storage storage = new Storage();
         storage.addTag(defaultTag);
         for (var arg : arguments) {
             if (arg.hasTag()) {
                 storage.addTag(arg.getTag());
-                //if not in the cache
+                //if not in the storage
                 if (!storage.tagHasKey(arg.getTag(), arg.getKey())) {
                     var group = new TagGroup(arguments, arg.getTag());
                     if (!group.getKeys().isEmpty()) {
                         var history = this.config.historyPerGroup(group);
                         var filteredSuggestions = this.filter(history, group.getKeys());
-                        //if group history has all keys from group
                         if (!filteredSuggestions.isEmpty()) {
-                            var values = this.inputHandler.getValue(group.getKeys(), this.prepareSuggestions(filteredSuggestions)).split(",");
+                            var values = this.inputHandler.getValue(group.getKeys(), new Suggestions.JoinedHistory(history)).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
                                 this.chooseValuesByOne(storage, group, history);
@@ -47,7 +49,7 @@ final class ResolvedValues {
                         }
                     }
                 } else {
-                    //if in cache then go to the next key
+                    //value is already in storage
                     continue;
                 }
             }
@@ -55,34 +57,52 @@ final class ResolvedValues {
                 var value = this.inputHandler
                         .getValue(
                                 arg.getKey(),
-                                this.config.history(
-                                        arg.getKey(), defaultTag)
+                                new Suggestions.Plain(
+                                        this.config.history(
+                                                arg.getKey(),
+                                                defaultTag
+                                        )
+                                )
                         );
                 storage.store(defaultTag, arg.getKey(), value);
             }
         }
+        return storage;
     }
 
-    private void chooseValuesByOne(final ValuesByTagStorage storage, final TagGroup group, final List<Map<String, String>> history) {
+    private void chooseValuesByOne(
+            final Storage storage,
+            final TagGroup group,
+            final List<Map<String, String>> history
+    ) {
         group.getKeys().forEach(key -> {
             var value = this.inputHandler.getValue(
-                    key, this.prepareSuggestions(history, key)
+                    key, new Suggestions.ByKey(history, key)
             );
             storage.store(group.getTag(), key, value);
         });
     }
 
-    private List<Map<String, String>> filter(final List<Map<String, String>> history, final List<String> keys) {
+    /**
+     * Filter history.
+     * Choose only those entries that have all keys from specified list
+     * For example if history has two entries:
+     * {
+     * "user":"postgres",
+     * "port":"5432"
+     * }
+     * but keys have only one entry(port) then history will be skipped
+     *
+     * @param history Cached history
+     * @param keys    Keys from cli
+     * @return Filtered history
+     */
+    private List<Map<String, String>> filter(
+            final List<Map<String, String>> history,
+            final List<String> keys
+    ) {
         return history.stream()
                 .filter(map -> map.keySet().containsAll(keys))
                 .collect(Collectors.toList());
-    }
-
-    private List<String> prepareSuggestions(final List<Map<String, String>> history) {
-        return history.stream().map(map -> String.join(",", map.values())).collect(Collectors.toList());
-    }
-
-    private List<String> prepareSuggestions(final List<Map<String, String>> history, final String key) {
-        return history.stream().map(map -> map.get(key)).filter(Objects::nonNull).collect(Collectors.toList());
     }
 }

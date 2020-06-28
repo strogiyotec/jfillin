@@ -3,11 +3,11 @@ package jfill;
 import java.util.HashMap;
 import java.util.Map;
 
-final class ValuesByTagStorage {
+final class Storage {
 
     private final Map<String, Map<String, String>> storage;
 
-    ValuesByTagStorage() {
+    Storage() {
         this.storage = new HashMap<>();
     }
 

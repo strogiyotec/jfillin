@@ -4,10 +4,9 @@ import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.TerminalBuilder;
 
 import java.io.IOException;
-import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-public final class Main implements Callable<Void> {
+public final class Main {
 
     private final String[] args;
 
@@ -29,41 +28,41 @@ public final class Main implements Callable<Void> {
         ).call();
     }
 
-    private static void persistValues(
-            final ValuesByTagStorage storage,
-            final Config config
-    ) throws IOException {
-        storage.persist(config);
-        config.save();
-    }
 
-    @Override
-    public Void call() throws Exception {
+    private void call() throws Exception {
         var config = new Config(Defaults.CONFIG_PATH);
-        var storage = new ValuesByTagStorage();
-        new ResolvedValues(
+        final Values values = new Values(
                 new InputHandler(
                         new LineReaderImpl(
-                                TerminalBuilder.builder().type("xterm").build()
+                                TerminalBuilder.
+                                        builder()
+                                        .type("xterm")
+                                        .build()
                         )
                 ),
                 config
-        ).resolve(
+        );
+        final Storage storage = values.resolve(
                 new Arguments(
                         this.args,
                         this.pattern
                 ),
-                storage,
                 this.defaultTag
         );
-        new Command(
+        new ShellCommand(
                 this.pattern,
                 this.args,
                 storage,
                 this.defaultTag
         ).call();
         persistValues(storage, config);
-        //we need callable in order to throw exception
-        return null;
+    }
+
+    private static void persistValues(
+            final Storage storage,
+            final Config config
+    ) throws IOException {
+        storage.persist(config);
+        config.save();
     }
 }

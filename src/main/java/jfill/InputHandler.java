@@ -13,13 +13,13 @@ final class InputHandler {
         this.reader = reader;
     }
 
-    String getValue(final String word, final List<String> suggestions) {
-        this.reader.setCompleter(new StringsCompleter(suggestions));
+    String getValue(final String word, final Suggestions suggestions) {
+        this.reader.setCompleter(new StringsCompleter(suggestions.get()));
         return reader.readLine(String.format("%s: ", word));
     }
 
-    String getValue(final List<String> words, final List<String> suggestions) {
-        this.reader.setCompleter(new StringsCompleter(suggestions));
+    String getValue(final List<String> words, final Suggestions suggestions) {
+        this.reader.setCompleter(new StringsCompleter(suggestions.get()));
         var prompt = String.join(", ", words);
         return reader.readLine(String.format("%s: ", prompt));
     }
