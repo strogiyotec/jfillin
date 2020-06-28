@@ -9,13 +9,13 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
-final class Config {
+final class Cache {
 
     private final Json cache;
 
     private final String path;
 
-    Config(final String path) throws IOException {
+    Cache(final String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
             this.cache = Json.read(Files.readString(Path.of(path)));
         } else {

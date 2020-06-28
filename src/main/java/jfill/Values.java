@@ -9,17 +9,17 @@ import java.util.stream.Collectors;
  */
 final class Values {
 
-    private final Config config;
+    private final Cache cache;
 
     private final InputHandler inputHandler;
 
-    Values(final InputHandler input, final Config config) {
-        this.config = config;
+    Values(final InputHandler input, final Cache cache) {
+        this.cache = cache;
         this.inputHandler = input;
     }
 
-    Storage resolve(final Arguments arguments, final String defaultTag) {
-        final Storage storage = new Storage();
+    ValuesStorage resolve(final Arguments arguments, final String defaultTag) {
+        final ValuesStorage storage = new ValuesStorage();
         storage.addTag(defaultTag);
         for (var arg : arguments) {
             if (arg.hasTag()) {
@@ -28,7 +28,7 @@ final class Values {
                 if (!storage.tagHasKey(arg.getTag(), arg.getKey())) {
                     var group = new TagGroup(arguments, arg.getTag());
                     if (!group.getKeys().isEmpty()) {
-                        var history = this.config.historyPerGroup(group);
+                        var history = this.cache.historyPerGroup(group);
                         var filteredSuggestions = this.filter(history, group.getKeys());
                         if (!filteredSuggestions.isEmpty()) {
                             var values = this.inputHandler.getValue(group.getKeys(), new Suggestions.JoinedHistory(history)).split(",");
@@ -58,7 +58,7 @@ final class Values {
                         .getValue(
                                 arg.getKey(),
                                 new Suggestions.Plain(
-                                        this.config.history(
+                                        this.cache.history(
                                                 arg.getKey(),
                                                 defaultTag
                                         )
@@ -71,7 +71,7 @@ final class Values {
     }
 
     private void chooseValuesByOne(
-            final Storage storage,
+            final ValuesStorage storage,
             final TagGroup group,
             final List<Map<String, String>> history
     ) {

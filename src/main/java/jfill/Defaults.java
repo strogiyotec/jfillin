@@ -8,5 +8,5 @@ public interface Defaults {
 
     String NO_TAG = "noTag";
 
-    String CONFIG_PATH = System.getProperty("user.home") + "/.config/jfillin/fillin.json";
+    String CACHE_PATH = System.getProperty("user.home") + "/.config/jfillin/fillin.json";
 }

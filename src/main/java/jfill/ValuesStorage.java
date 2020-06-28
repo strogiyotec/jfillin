@@ -3,11 +3,16 @@ package jfill;
 import java.util.HashMap;
 import java.util.Map;
 
-final class Storage {
+final class ValuesStorage {
 
+    /**
+     * Storage.
+     * Key is tag
+     * Value is map of argument-value
+     */
     private final Map<String, Map<String, String>> storage;
 
-    Storage() {
+    ValuesStorage() {
         this.storage = new HashMap<>();
     }
 
@@ -27,7 +32,12 @@ final class Storage {
         return this.storage.get(tag).get(key);
     }
 
-    void persist(final Config config) {
-        this.storage.forEach(config::addEntry);
+    /**
+     * Flush all entries to cache.
+     *
+     * @param cache Cache
+     */
+    void flush(final Cache cache) {
+        this.storage.forEach(cache::addEntry);
     }
 }

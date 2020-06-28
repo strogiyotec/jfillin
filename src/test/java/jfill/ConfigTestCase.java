@@ -12,29 +12,29 @@ import java.util.Map;
 
 final class ConfigTestCase {
 
-    private static Config config;
+    private static Cache cache;
 
     @BeforeAll
-    @DisplayName("Init config")
+    @DisplayName("Init cache")
     static void initConfig() throws IOException {
-        config = new Config(testConfig());
+        cache = new Cache(testConfig());
     }
 
     @Test
-    @DisplayName("Test that config has two different values for given word")
+    @DisplayName("Test that cache has two different values for given word")
     void testHistoryForWord() {
         Assertions.assertEquals(
-                config.history("user", "psql"),
+                cache.history("user", "psql"),
                 List.of("postgres", "admin")
         );
 
     }
 
     @Test
-    @DisplayName("Test that config doesn't have history for given word")
+    @DisplayName("Test that cache doesn't have history for given word")
     void testHistoryIsEmpty() {
         Assertions.assertEquals(
-                config.history("connections", "psql"),
+                cache.history("connections", "psql"),
                 Collections.emptyList()
         );
     }
@@ -43,7 +43,7 @@ final class ConfigTestCase {
     @DisplayName("Test that both history entries were fetched for given tag")
     void testGroupHistory() {
         var tag = "psql";
-        var history = config.historyPerGroup(
+        var history = cache.historyPerGroup(
                 new TagGroup(
                         new Arguments(
                                 new String[]{
@@ -68,10 +68,10 @@ final class ConfigTestCase {
     }
 
     @Test
-    @DisplayName("Test that config doesn't have history for given tag")
+    @DisplayName("Test that cache doesn't have history for given tag")
     void testNonExistingTag() {
         var tag = "psql";
-        var history = config.historyPerGroup(
+        var history = cache.historyPerGroup(
                 new TagGroup(
                         new Arguments(
                                 new String[]{
@@ -88,7 +88,7 @@ final class ConfigTestCase {
 
     @Test
     void test() {
-        config.addEntry(
+        cache.addEntry(
                 "reddis",
                 Map.of(
                         "host", "privet",

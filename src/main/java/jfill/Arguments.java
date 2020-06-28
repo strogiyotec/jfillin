@@ -9,9 +9,9 @@ public final class Arguments implements Iterable<Argument> {
 
     private final List<Argument> arguments;
 
-    Arguments(final String[] params, final Pattern pattern) {
+    Arguments(final String[] args, final Pattern pattern) {
         final List<Argument> arguments = new ArrayList<>(16);
-        for (final String param : params) {
+        for (final String param : args) {
             var matcher = pattern.matcher(param);
             if (matcher.find()) {
                 final String word = matcher.group(1);

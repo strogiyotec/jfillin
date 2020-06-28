@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.concurrent.Callable;
 import java.util.regex.Pattern;
 
-final class ShellCommand implements Callable<Void> {
+final class ShellCommand {
 
     private final Callable<String> command;
 
     ShellCommand(
             final Pattern pattern,
             final String[] args,
-            final Storage storage,
+            final ValuesStorage storage,
             final String defaultTag
     ) {
         this.command = () -> {
@@ -40,9 +40,7 @@ final class ShellCommand implements Callable<Void> {
         };
     }
 
-    @Override
-    public Void call() throws Exception {
+    public void execute() throws Exception {
         this.command.call();
-        return null;
     }
 }
