@@ -31,7 +31,7 @@ final class Values {
                         var history = this.cache.historyPerGroup(group);
                         var filteredSuggestions = this.filter(history, group.getKeys());
                         if (!filteredSuggestions.isEmpty()) {
-                            var values = this.inputHandler.getValue(group.getKeys(), new Suggestions.JoinedHistory(history)).split(",");
+                            var values = this.inputHandler.getValue(group.getKeys(), new Suggestions.JoinedHistory(filteredSuggestions)).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
                                 this.chooseValuesByOne(storage, group, history);
@@ -59,8 +59,7 @@ final class Values {
                                 arg.getKey(),
                                 new Suggestions.Plain(
                                         this.cache.history(
-                                                arg.getKey(),
-                                                defaultTag
+                                               new TagGroup(defaultTag,arg.getKey())
                                         )
                                 )
                         );

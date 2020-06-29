@@ -10,6 +10,11 @@ public final class TagGroup {
 
     private final String tag;
 
+    TagGroup(final String tag, final String key) {
+        this.tag = tag;
+        this.keys = Collections.singletonList(key);
+    }
+
     TagGroup(final Arguments arguments, final String tag) {
         var cache = new HashMap<String, Boolean>();
         var keys = new ArrayList<String>(16);
