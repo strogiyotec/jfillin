@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public final class TagGroup {
+final class TagGroup {
     private final List<String> keys;
 
     private final String tag;

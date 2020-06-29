@@ -24,7 +24,7 @@ final class ConfigTestCase {
     @DisplayName("Test that cache has two different values for given word")
     void testHistoryForWord() {
         Assertions.assertEquals(
-                cache.history("user", "psql"),
+                cache.history(new TagGroup("psql", "user")),
                 List.of("postgres", "admin")
         );
 
@@ -34,7 +34,7 @@ final class ConfigTestCase {
     @DisplayName("Test that cache doesn't have history for given word")
     void testHistoryIsEmpty() {
         Assertions.assertEquals(
-                cache.history("connections", "psql"),
+                cache.history(new TagGroup("psql", "connections")),
                 Collections.emptyList()
         );
     }

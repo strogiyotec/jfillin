@@ -5,7 +5,7 @@ import org.jline.terminal.TerminalBuilder;
 
 import java.util.regex.Pattern;
 
-public final class Execution {
+final class Execution {
 
     private final String[] args;
 
@@ -15,7 +15,7 @@ public final class Execution {
 
     private final Cache cache;
 
-    public Execution(final String[] args, final String defaultTag, final Pattern pattern, final Cache cache) {
+    Execution(final String[] args, final String defaultTag, final Pattern pattern, final Cache cache) {
         this.args = args;
         this.defaultTag = defaultTag;
         this.pattern = pattern;

@@ -40,7 +40,7 @@ final class ShellCommand {
         };
     }
 
-    public void execute() throws Exception {
+    void execute() throws Exception {
         this.command.call();
     }
 }

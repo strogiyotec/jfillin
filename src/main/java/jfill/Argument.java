@@ -5,7 +5,7 @@ import java.util.Optional;
 /**
  * Cli argument.
  */
-public final class Argument {
+final class Argument {
 
     /**
      * Key.

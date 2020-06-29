@@ -59,7 +59,7 @@ final class Values {
                                 arg.getKey(),
                                 new Suggestions.Plain(
                                         this.cache.history(
-                                               new TagGroup(defaultTag,arg.getKey())
+                                                new TagGroup(defaultTag, arg.getKey())
                                         )
                                 )
                         );
