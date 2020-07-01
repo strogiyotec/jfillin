@@ -13,8 +13,8 @@ final class TagGroupTestCase {
                                 "psql",
                                 "-p {{psql:port}}",
                                 "-h {{psql:host}}",
-                        },
-                        Defaults.FILLIN_PTN),
+                        }
+                ),
                 "psql"
         );
         Assertions.assertEquals(group.getTag(), "psql");

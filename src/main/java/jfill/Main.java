@@ -12,9 +12,9 @@ public final class Main {
     public static void main(final String[] args) throws Exception {
         new Execution(
                 args,
-                Defaults.NO_TAG,
-                Defaults.FILLIN_PTN,
-                new Cache(Defaults.CACHE_PATH)
+                new Cache(Defaults.CACHE_PATH),
+                new ProcessBuilder().inheritIO(),
+                System.out
         ).execute();
     }
 }

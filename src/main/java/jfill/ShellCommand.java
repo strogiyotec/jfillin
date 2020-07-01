@@ -6,13 +6,14 @@ import java.util.regex.Pattern;
 
 final class ShellCommand {
 
-    private final Callable<String> command;
+    private final Callable<Void> command;
 
     ShellCommand(
             final Pattern pattern,
             final String[] args,
             final ValuesStorage storage,
-            final String defaultTag
+            final String defaultTag,
+            final ProcessBuilder builder
     ) {
         this.command = () -> {
             var resolvedArgs = new ArrayList<String>(args.length);
@@ -31,11 +32,11 @@ final class ShellCommand {
                     resolvedArgs.add(arg);
                 }
             }
-            var process = new ProcessBuilder()
+            var process = builder
                     .command(resolvedArgs)
-                    .inheritIO()
                     .start();
             process.waitFor();
+
             return null;
         };
     }

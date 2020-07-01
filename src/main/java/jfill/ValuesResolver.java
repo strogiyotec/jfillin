@@ -7,20 +7,20 @@ import java.util.stream.Collectors;
 /**
  * Fill command with user specified values.
  */
-final class Values {
+final class ValuesResolver {
 
     private final Cache cache;
 
     private final InputHandler inputHandler;
 
-    Values(final InputHandler input, final Cache cache) {
+    ValuesResolver(final InputHandler input, final Cache cache) {
         this.cache = cache;
         this.inputHandler = input;
     }
 
-    ValuesStorage resolve(final Arguments arguments, final String defaultTag) {
+    ValuesStorage resolve(final Arguments arguments) {
         final ValuesStorage storage = new ValuesStorage();
-        storage.addTag(defaultTag);
+        storage.addTag(Defaults.NO_TAG);
         for (var arg : arguments) {
             if (arg.hasTag()) {
                 storage.addTag(arg.getTag());
@@ -53,17 +53,17 @@ final class Values {
                     continue;
                 }
             }
-            if (!storage.tagHasKey(defaultTag, arg.getKey())) {
+            if (!storage.tagHasKey(Defaults.NO_TAG, arg.getKey())) {
                 var value = this.inputHandler
                         .getValue(
                                 arg.getKey(),
                                 new Suggestions.Plain(
                                         this.cache.history(
-                                                new TagGroup(defaultTag, arg.getKey())
+                                                new TagGroup(Defaults.NO_TAG, arg.getKey())
                                         )
                                 )
                         );
-                storage.store(defaultTag, arg.getKey(), value);
+                storage.store(Defaults.NO_TAG, arg.getKey(), value);
             }
         }
         return storage;

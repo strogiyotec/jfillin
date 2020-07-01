@@ -1,6 +1,8 @@
 package jfill;
 
 import org.jline.reader.impl.LineReaderImpl;
+import org.jline.reader.impl.completer.ArgumentCompleter;
+import org.jline.reader.impl.completer.NullCompleter;
 import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.List;
@@ -14,7 +16,14 @@ final class InputHandler {
     }
 
     String getValue(final String word, final Suggestions suggestions) {
-        this.reader.setCompleter(new StringsCompleter(suggestions.get()));
+        this.reader.setCompleter(
+                new ArgumentCompleter(
+                        new StringsCompleter(
+                                suggestions.get()
+                        ),
+                        NullCompleter.INSTANCE
+                )
+        );
         return reader.readLine(String.format("%s: ", word));
     }
 

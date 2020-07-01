@@ -9,12 +9,14 @@ import java.util.List;
 final class ArgumentsTestCase {
     @Test
     void testNoTagArguments() {
-        var arguments = new Arguments(new String[]{
-                "echo",
-                "{{hello}}",
-                "{{world}}"
+        var arguments = new Arguments(
+                new String[]{
+                        "echo",
+                        "{{hello}}",
+                        "{{world}}"
 
-        }, Defaults.FILLIN_PTN);
+                }
+        );
         final List<Argument> list = fromIterable(arguments);
         Assertions.assertEquals(list.get(0).getKey(), "hello");
         Assertions.assertEquals(list.get(1).getKey(), "world");
@@ -30,7 +32,7 @@ final class ArgumentsTestCase {
                 "{{psql:hello}}",
                 "{{redis:world}}"
 
-        }, Defaults.FILLIN_PTN);
+        });
         final List<Argument> list = fromIterable(arguments);
         Assertions.assertEquals(list.get(0).getKey(), "hello");
         Assertions.assertEquals(list.get(1).getKey(), "world");
@@ -38,6 +40,7 @@ final class ArgumentsTestCase {
         Assertions.assertEquals(list.get(0).getTag(), "psql");
         Assertions.assertEquals(list.get(1).getTag(), "redis");
     }
+
     private static List<Argument> fromIterable(final Iterable<Argument> iterable) {
         var list = new ArrayList<Argument>();
         iterable.forEach(list::add);

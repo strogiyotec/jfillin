@@ -3,16 +3,15 @@ package jfill;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public final class Arguments implements Iterable<Argument> {
 
     private final List<Argument> arguments;
 
-    Arguments(final String[] args, final Pattern pattern) {
+    Arguments(final String[] args) {
         final List<Argument> arguments = new ArrayList<>(16);
         for (final String param : args) {
-            var matcher = pattern.matcher(param);
+            var matcher = Defaults.FILLIN_PTN.matcher(param);
             if (matcher.find()) {
                 final String word = matcher.group(1);
                 if (word.contains(":")) {

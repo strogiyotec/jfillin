@@ -3,23 +3,23 @@ package jfill;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.TerminalBuilder;
 
-import java.util.regex.Pattern;
+import java.io.PrintStream;
 
 final class Execution {
 
     private final String[] args;
 
-    private final String defaultTag;
-
-    private final Pattern pattern;
-
     private final Cache cache;
 
-    Execution(final String[] args, final String defaultTag, final Pattern pattern, final Cache cache) {
+    private final ProcessBuilder builder;
+
+    private final PrintStream output;
+
+    Execution(final String[] args, final Cache cache, final ProcessBuilder builder, final PrintStream output) {
         this.args = args;
-        this.defaultTag = defaultTag;
-        this.pattern = pattern;
         this.cache = cache;
+        this.builder = builder;
+        this.output = output;
     }
 
     /**
@@ -31,7 +31,7 @@ final class Execution {
         if (this.helpOrVersion()) {
             return;
         }
-        final Values values = new Values(
+        final ValuesResolver valuesResolver = new ValuesResolver(
                 new InputHandler(
                         new LineReaderImpl(
                                 TerminalBuilder.
@@ -42,26 +42,21 @@ final class Execution {
                 ),
                 this.cache
         );
-        final ValuesStorage storage = values.resolve(
-                new Arguments(
-                        this.args,
-                        this.pattern
-                ),
-                this.defaultTag
-        );
+        final ValuesStorage storage = valuesResolver.resolve(new Arguments(this.args));
         new ShellCommand(
-                this.pattern,
+                Defaults.FILLIN_PTN,
                 this.args,
                 storage,
-                this.defaultTag
+                Defaults.NO_TAG,
+                this.builder
         ).execute();
-        //save new values in cache
+        //save new valuesResolver in cache
         storage.flush(this.cache);
         this.cache.save();
     }
 
     private void printHelp() {
-        System.out.println(
+        this.output.println(
                 String.join(
                         "\n",
                         "NAME:",
@@ -75,7 +70,7 @@ final class Execution {
     }
 
     private void printVersion() {
-        System.out.println("jfillin 1.0");
+        this.output.println("jfillin 1.0");
     }
 
     private boolean helpOrVersion() {
