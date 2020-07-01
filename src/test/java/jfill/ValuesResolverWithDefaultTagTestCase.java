@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-final class ValuesResolverTestCase {
+final class ValuesResolverWithDefaultTagTestCase {
 
     private static InputHandler handler;
 
