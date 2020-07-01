@@ -31,7 +31,10 @@ final class ValuesResolver {
                         var history = this.cache.historyPerGroup(group);
                         var filteredSuggestions = this.filter(history, group.getKeys());
                         if (!filteredSuggestions.isEmpty()) {
-                            var values = this.inputHandler.getValue(group.getKeys(), new Suggestions.JoinedHistory(filteredSuggestions)).split(",");
+                            var values = this.inputHandler.getValue(
+                                    group.getKeys(),
+                                    new Suggestions.JoinedHistory(filteredSuggestions)
+                            ).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
                                 this.chooseValuesByOne(storage, group, history);

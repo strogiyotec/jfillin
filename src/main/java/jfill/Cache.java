@@ -9,6 +9,9 @@ import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * History cache saved in json file.
+ */
 final class Cache {
 
     private final Json cache;
