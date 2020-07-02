@@ -11,7 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 import java.util.Map;
 
 final class ExecuteTestCase {
@@ -47,7 +46,7 @@ final class ExecuteTestCase {
                         )
                 );
         var cacheFile = tempDir.resolve("test.json");
-        Files.write(cacheFile, List.of("{}"));
+        Files.write(cacheFile, "{}".getBytes());
         try (var outputStorage = new ByteArrayOutputStream()) {
             try (var stream = new PrintStream(outputStorage)) {
                 new Execution(
