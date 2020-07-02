@@ -16,6 +16,10 @@ final class ValuesStorage {
         this.storage = new HashMap<>();
     }
 
+    ValuesStorage(final Map<String, Map<String, String>> storage) {
+        this.storage = storage;
+    }
+
     void addTag(final String tag) {
         this.storage.computeIfAbsent(tag, s -> new HashMap<>());
     }

@@ -5,9 +5,18 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Group keys by tag.
+ */
 final class TagGroup {
+    /**
+     * Keys.
+     */
     private final List<String> keys;
 
+    /**
+     * Tag.
+     */
     private final String tag;
 
     TagGroup(final String tag, final String key) {

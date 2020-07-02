@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-final class ValuesResolverWithDefaultTagTestCase {
+final class ResolverTestCase {
 
     private static InputHandler handler;
 
@@ -39,7 +39,7 @@ final class ValuesResolverWithDefaultTagTestCase {
     }
 
     @Test
-    void testResolveDefaultTag() throws IOException {
+    void testValueFromHistory() throws IOException {
         var values = new ValuesResolver(handler, new Cache(Utils.configPath("cache_with_default_tag.json")));
         var storage = values.resolve(new Arguments(
                 new String[]{
@@ -55,7 +55,7 @@ final class ValuesResolverWithDefaultTagTestCase {
     }
 
     @Test
-    void testDefaultTagWithoutHistory() throws IOException {
+    void testValueWithoutHistory() throws IOException {
         var values = new ValuesResolver(handler, new Cache(Utils.configPath("cache_with_default_tag.json")));
         var storage = values.resolve(new Arguments(
                 new String[]{

@@ -49,10 +49,8 @@ final class Execution {
         );
         final ValuesStorage storage = valuesResolver.resolve(new Arguments(this.args));
         new ShellCommand(
-                Defaults.FILLIN_PTN,
                 this.args,
                 storage,
-                Defaults.NO_TAG,
                 this.builder
         ).execute();
         //save new valuesResolver in cache
@@ -78,7 +76,7 @@ final class Execution {
     }
 
     private void printVersion() {
-        this.output.println("jfillin 1.0");
+        this.output.println(Defaults.VERSION);
     }
 
     private boolean helpOrVersion() {
