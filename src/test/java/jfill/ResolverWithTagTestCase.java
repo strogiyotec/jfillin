@@ -9,13 +9,15 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import static jfill.Utils.configPath;
+
 public final class ResolverWithTagTestCase {
 
     private static InputHandler handler;
 
     @BeforeAll
     static void initReader() {
-        handler = Mockito.mock(InputHandler.class);
+        handler = Mockito.mock(InputHandler.class,Mockito.withSettings().stubOnly());
         //Default tag history
         Mockito.when(
                 handler.getValue(
@@ -36,7 +38,7 @@ public final class ResolverWithTagTestCase {
 
     @Test
     void test() throws IOException {
-        var values = new ValuesResolver(handler, new Cache(Utils.configPath("cache_with_tag.json")));
+        var values = new ValuesResolver(handler, new Cache(configPath("cache_with_tag.json")));
         var storage = values.resolve(new Arguments(
                 new String[]{
                         "echo",

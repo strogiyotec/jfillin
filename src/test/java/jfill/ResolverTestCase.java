@@ -15,7 +15,7 @@ final class ResolverTestCase {
 
     @BeforeAll
     static void initReader() {
-        handler = Mockito.mock(InputHandler.class);
+        handler = Mockito.mock(InputHandler.class, Mockito.withSettings().stubOnly());
         //Default tag history
         Mockito.when(
                 handler.getValue(

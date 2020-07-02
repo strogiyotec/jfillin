@@ -1,8 +1,5 @@
 package jfill;
 
-import org.jline.reader.impl.LineReaderImpl;
-import org.jline.terminal.TerminalBuilder;
-
 import java.io.PrintStream;
 
 final class Execution {
@@ -15,16 +12,20 @@ final class Execution {
 
     private final PrintStream output;
 
+    private final ValuesResolver resolver;
+
     Execution(
             final String[] args,
             final Cache cache,
             final ProcessBuilder builder,
-            final PrintStream output
+            final PrintStream output,
+            final ValuesResolver resolver
     ) {
         this.args = args;
         this.cache = cache;
         this.builder = builder;
         this.output = output;
+        this.resolver = resolver;
     }
 
     /**
@@ -36,18 +37,7 @@ final class Execution {
         if (this.helpOrVersion()) {
             return;
         }
-        final ValuesResolver valuesResolver = new ValuesResolver(
-                new InputHandler(
-                        new LineReaderImpl(
-                                TerminalBuilder.
-                                        builder()
-                                        .type("xterm")
-                                        .build()
-                        )
-                ),
-                this.cache
-        );
-        final ValuesStorage storage = valuesResolver.resolve(new Arguments(this.args));
+        final ValuesStorage storage = this.resolver.resolve(new Arguments(this.args));
         new ShellCommand(
                 this.args,
                 storage,

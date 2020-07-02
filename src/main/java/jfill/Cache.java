@@ -2,6 +2,7 @@ package jfill;
 
 import mjson.Json;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +18,15 @@ final class Cache {
     private final Json cache;
 
     private final String path;
+
+    Cache(final File file) throws IOException {
+        if (file.exists()) {
+            this.cache = Json.read(Files.readString(file.toPath()));
+        } else {
+            this.cache = Json.object().set("noTag", Json.object().set("values", Json.array()));
+        }
+        this.path = file.getAbsolutePath();
+    }
 
     Cache(final String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
