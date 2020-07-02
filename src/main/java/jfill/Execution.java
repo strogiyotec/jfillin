@@ -15,7 +15,12 @@ final class Execution {
 
     private final PrintStream output;
 
-    Execution(final String[] args, final Cache cache, final ProcessBuilder builder, final PrintStream output) {
+    Execution(
+            final String[] args,
+            final Cache cache,
+            final ProcessBuilder builder,
+            final PrintStream output
+    ) {
         this.args = args;
         this.cache = cache;
         this.builder = builder;
