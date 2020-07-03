@@ -1,6 +1,10 @@
 # jfillin
  fill-in your command and execute it. Written in Pure Java 11 .
- 
+
+# About
+jfill stores the history of your commands in order to give you nice autocompletion\
+In order to trigger completion press TAB
+
 # Install
 In order to install it download the latest [release](https://github.com/strogiyotec/jfillin/releases/tag/1).
 It contains single executable. You don't need Java in your computer to run it.
@@ -11,20 +15,13 @@ If you want to execute it from any directory then put executable into `/usr/loca
 Just pass arguments to jfill that you want to fill.
 
 ```
-jfill echo {{hello}} {{world}}
+jfill echo {{message}} 
 ```
-After this you will be promoted to fill each parameter you specified inside `{{}}`
-```
-  jfill echo {{hello}} {{world}}
-hello: Pure
-world: Java
-Pure Java
-```
-![Example1](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/example1.png)
 
-If you execute this command again then you could select 
-value from history. To trigger history completion press **TAB** and you will
-see the list of choices
+Here is the gif\
+![Gif1](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/notTag.gif) \
+As you can see you can choose from the history pressing TAB.\
+When you finish jfill will execute the command for you
 
 ## TAG
 But the main power comes when you use tags. Why?
@@ -35,13 +32,6 @@ In this case you could use tags
 ```
   jfill psql -U {{psql:user}} -P {{psql:port}}
 ```
-Fill your credentials for local environment then call this command again
-and type your stage server credentials.
-Finally if you type this command for the third time then 
-you can choose between two credentials using **TAB**.
-
-
-![Example2](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/example2.png)
 
 **jfill** respects [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) standart. So your config 
 with previous commands history will be stored in `~/.config/jfill/jfill.json` file
