@@ -26,15 +26,21 @@ When you finish jfill will execute the command for you
 ## TAG
 But the main power comes when you use tags. Why?
 Some times you need to connect to psql but use different credentials depending
-on machine you are connecting(Prod,Stage,Local).
+on machine you are connecting(Prod,Stage).
 In this case you could use tags
 
 ```
-  jfill psql -U {{psql:user}} -P {{psql:port}}
+  jfill psql -U {{psql:user}} -P {{psql:host}}
 ```
 
+![Gif1](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/tag.gif)
+
+As you can see jfill allows you to choose between two configurations (for local and stage environments)
+
+## Config
+
 **jfill** respects [XDG](https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html) standart. So your config 
-with previous commands history will be stored in `~/.config/jfill/jfill.json` file
+with previous commands will be stored in `~/.config/jfill/jfill.json` file
 
 ## Help and version
 If you execute jfill without params you will see help instruction
