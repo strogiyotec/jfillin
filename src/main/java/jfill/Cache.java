@@ -65,8 +65,8 @@ final class Cache {
     }
 
     /**
-     * Get history from cache for given group.
-     * Group has only one key so only cache entries
+     * Given group has only one key.
+     * Get history for given tag and single key
      * with the same key are chosen
      *
      * @param group Group
