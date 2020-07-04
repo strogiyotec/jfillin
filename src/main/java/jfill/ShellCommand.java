@@ -2,6 +2,7 @@ package jfill;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import java.util.regex.Matcher;
 
 final class ShellCommand {
 
@@ -21,9 +22,9 @@ final class ShellCommand {
                     var split = key.split(":");
                     //doesn't have tag
                     if (split.length == 1) {
-                        resolvedArgs.add(storage.get(Defaults.NO_TAG, key));
+                        resolvedArgs.add(getValue(arg, storage.get(Defaults.NO_TAG, key), matcher));
                     } else {
-                        resolvedArgs.add(storage.get(split[0], split[1]));
+                        resolvedArgs.add(getValue(arg, storage.get(split[0], split[1]), matcher));
                     }
                 } else {
                     resolvedArgs.add(arg);
@@ -40,5 +41,13 @@ final class ShellCommand {
 
     void execute() throws Exception {
         this.command.call();
+    }
+
+    private static String getValue(final String arg, final String resolvedValue, final Matcher matcher) {
+        if (matcher.groupCount() == 2) {
+            return arg.replace("{{"+matcher.group(1)+"}}", resolvedValue);
+        } else {
+            return resolvedValue;
+        }
     }
 }
