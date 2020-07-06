@@ -61,7 +61,7 @@ final class ShellCommand {
      * @param arg           Argument with unresolved value(the one surrounded by {{}})
      * @param resolvedValue Resolved value
      * @param matcher       Matcher
-     * @return
+     * @return Resolved value
      */
     private static String getValue(final String arg, final String resolvedValue, final Matcher matcher) {
         if (matcher.groupCount() == 2) {
