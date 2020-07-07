@@ -59,4 +59,47 @@ final class ShellCommandTestCase {
                 Files.readString(cacheFile.toPath()).replace("\n", "")
         );
     }
+
+    @Test
+    @DisplayName("Test that curl was executed and status is 200")
+    void testExecuteCurl(@TempDir final Path tempDir) throws Exception {
+        var cacheFile = tempDir.resolve("out4.txt").toFile();
+        new ShellCommand(
+                new String[]{"curl", "-I", "{{url}}.com"},
+                new ValuesStorage(
+                        Map.of(
+                                Defaults.NO_TAG,
+                                Map.of(
+                                        "url", "https://www.test"
+                                )
+                        )
+                ),
+                new ProcessBuilder().redirectOutput(cacheFile)
+        ).execute();
+        Assertions.assertTrue(
+                Files.readString(cacheFile.toPath()).contains("200 OK")
+        );
+    }
+
+    @Test
+    @DisplayName("Test that when value is part of the one word then only part of the word is replaced")
+    void testValueIsPartOfWord(@TempDir final Path tempDir) throws Exception {
+        var cacheFile = tempDir.resolve("out3.txt").toFile();
+        new ShellCommand(
+                new String[]{"echo", "{{url}}/users/1"},
+                new ValuesStorage(
+                        Map.of(
+                                Defaults.NO_TAG,
+                                Map.of(
+                                        "url", "localhost"
+                                )
+                        )
+                ),
+                new ProcessBuilder().redirectOutput(cacheFile)
+        ).execute();
+        Assertions.assertEquals(
+                "localhost/users/1",
+                Files.readString(cacheFile.toPath()).replace("\n", "")
+        );
+    }
 }
