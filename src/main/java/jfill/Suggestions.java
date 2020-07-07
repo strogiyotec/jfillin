@@ -83,7 +83,7 @@ public interface Suggestions {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             final Suggestions plain = (Suggestions) o;
-            return suggestions.equals(plain.get());
+            return this.suggestions.equals(plain.get());
         }
 
         @Override

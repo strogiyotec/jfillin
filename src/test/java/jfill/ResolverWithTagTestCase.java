@@ -7,7 +7,6 @@ import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import static jfill.Utils.configPath;
 
@@ -17,21 +16,12 @@ public final class ResolverWithTagTestCase {
 
     @BeforeAll
     static void initReader() {
-        handler = Mockito.mock(InputHandler.class,Mockito.withSettings().stubOnly());
+        handler = Mockito.mock(InputHandler.class, Mockito.withSettings().stubOnly());
         //Default tag history
         Mockito.when(
                 handler.getValue(
                         Mockito.eq(List.of("user", "port")),
-                        Mockito.eq(
-                                new Suggestions.JoinedHistory(
-                                        List.of(
-                                                Map.of(
-                                                        "port", "5432",
-                                                        "user", "postgres"
-                                                )
-                                        )
-                                )
-                        )
+                        Mockito.any()
                 )
         ).thenReturn("postgres,5432");
     }
