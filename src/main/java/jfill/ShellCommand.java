@@ -18,13 +18,13 @@ final class ShellCommand {
             for (var arg : args) {
                 var matcher = Defaults.FILLIN_PTN.matcher(arg);
                 if (matcher.find()) {
-                    var key = matcher.group(1);
+                    var key = matcher.group(2);
                     var split = key.split(":");
                     //doesn't have tag
                     if (split.length == 1) {
-                        resolvedArgs.add(getValue(arg, storage.get(Defaults.NO_TAG, key), matcher));
+                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.get(Defaults.NO_TAG, key)));
                     } else {
-                        resolvedArgs.add(getValue(arg, storage.get(split[0], split[1]), matcher));
+                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.get(split[0], split[1])));
                     }
                 } else {
                     resolvedArgs.add(arg);

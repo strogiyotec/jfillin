@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 public interface Defaults {
 
-    Pattern FILLIN_PTN = Pattern.compile("\\{\\{(.*)}}([^ ]+)?");
+    Pattern FILLIN_PTN = Pattern.compile("(.*)?\\{\\{(.*)}}([^ ]+)?");
 
     String NO_TAG = "noTag";
 

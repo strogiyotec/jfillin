@@ -13,7 +13,7 @@ public final class Arguments implements Iterable<Argument> {
         for (final String param : args) {
             var matcher = Defaults.FILLIN_PTN.matcher(param);
             if (matcher.find()) {
-                final String word = matcher.group(1);
+                final String word = matcher.group(2);
                 if (word.contains(":")) {
                     final String[] parts = word.split(":");
                     arguments.add(new Argument(parts[1], parts[0]));

@@ -41,13 +41,14 @@ final class ResolverTestCase {
     @Test
     void testValueFromHistory() throws IOException {
         var values = new ValuesResolver(handler, new Cache(Utils.configPath("cache_with_default_tag.json")));
-        var storage = values.resolve(new Arguments(
-                new String[]{
-                        "echo",
-                        "{{name}}",
-                        "{{surname}}",
-                }
-        ));
+        var storage = values.resolve(
+                new Arguments(
+                        new String[]{
+                                "echo",
+                                "{{name}}",
+                                "{{surname}}",
+                        }
+                ));
         Assertions.assertAll(
                 () -> Assertions.assertEquals(storage.get(Defaults.NO_TAG, "name"), "almas"),
                 () -> Assertions.assertEquals(storage.get(Defaults.NO_TAG, "surname"), "abdrazak")

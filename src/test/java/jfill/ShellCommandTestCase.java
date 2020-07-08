@@ -37,7 +37,7 @@ final class ShellCommandTestCase {
     @Test
     @DisplayName("Test that echo output with tags was saved to file")
     void testOutputWithTag(@TempDir final Path tempDir) throws Exception {
-        var cacheFile = tempDir.resolve("out2.txt").toFile();
+        var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"echo", "{{tag1:msg1}}", "{{tag2:msg2}}"},
                 new ValuesStorage(
@@ -63,7 +63,7 @@ final class ShellCommandTestCase {
     @Test
     @DisplayName("Test that curl was executed and status is 200")
     void testExecuteCurl(@TempDir final Path tempDir) throws Exception {
-        var cacheFile = tempDir.resolve("out4.txt").toFile();
+        var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"curl", "-I", "{{url}}.com"},
                 new ValuesStorage(
@@ -82,9 +82,9 @@ final class ShellCommandTestCase {
     }
 
     @Test
-    @DisplayName("Test that when value is part of the one word then only part of the word is replaced")
-    void testValueIsPartOfWord(@TempDir final Path tempDir) throws Exception {
-        var cacheFile = tempDir.resolve("out3.txt").toFile();
+    @DisplayName("Test that when value is in the one of the word then only part of the word is replaced")
+    void testValueInTheBeginningOfWord(@TempDir final Path tempDir) throws Exception {
+        var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"echo", "{{url}}/users/1"},
                 new ValuesStorage(
@@ -92,6 +92,27 @@ final class ShellCommandTestCase {
                                 Defaults.NO_TAG,
                                 Map.of(
                                         "url", "localhost"
+                                )
+                        )
+                ),
+                new ProcessBuilder().redirectOutput(cacheFile)
+        ).execute();
+        Assertions.assertEquals(
+                "localhost/users/1",
+                Files.readString(cacheFile.toPath()).replace("\n", "")
+        );
+    }
+    @Test
+    @DisplayName("Test that when value is in the one of the word then only part of the word is replaced")
+    void testValueInTheEndOfWord(@TempDir final Path tempDir) throws Exception {
+        var cacheFile = tempDir.resolve("out.txt").toFile();
+        new ShellCommand(
+                new String[]{"echo", "localhost/{{path}}"},
+                new ValuesStorage(
+                        Map.of(
+                                Defaults.NO_TAG,
+                                Map.of(
+                                        "path", "users/1"
                                 )
                         )
                 ),
