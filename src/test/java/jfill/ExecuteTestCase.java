@@ -26,7 +26,7 @@ final class ExecuteTestCase {
                         print,
                         Mockito.mock(ValuesResolver.class)
                 ).execute();
-                Assertions.assertTrue(stream.toString().contains("jfillin 1.0"));
+                Assertions.assertTrue(stream.toString().contains("jfillin 2.0"));
             }
         }
     }
