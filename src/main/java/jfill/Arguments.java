@@ -9,13 +9,13 @@ public final class Arguments implements Iterable<Argument> {
     private final List<Argument> arguments;
 
     Arguments(final String[] args) {
-        final List<Argument> arguments = new ArrayList<>(16);
-        for (final String param : args) {
+        var arguments = new ArrayList<Argument>(16);
+        for (var param : args) {
             var matcher = Defaults.FILLIN_PTN.matcher(param);
             if (matcher.find()) {
-                final String word = matcher.group(2);
+                var word = matcher.group(2);
                 if (word.contains(":")) {
-                    final String[] parts = word.split(":");
+                    var parts = word.split(":");
                     arguments.add(new Argument(parts[1], parts[0]));
                 } else {
                     //without tag

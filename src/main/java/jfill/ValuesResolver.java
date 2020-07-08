@@ -19,7 +19,7 @@ final class ValuesResolver {
     }
 
     ValuesStorage resolve(final Arguments arguments) {
-        final ValuesStorage storage = new ValuesStorage();
+        var storage = new ValuesStorage();
         storage.addTag(Defaults.NO_TAG);
         for (var arg : arguments) {
             if (arg.hasTag()) {
@@ -28,8 +28,9 @@ final class ValuesResolver {
                 if (!storage.tagHasKey(arg.getTag(), arg.getKey())) {
                     var group = new TagGroup(arguments, arg.getTag());
                     if (!group.getKeys().isEmpty()) {
-                        var history = this.cache.historyPerGroup(group);
-                        var filteredSuggestions = this.filter(history, group.getKeys());
+                        var suggestions = this.cache.historyPerGroup(group);
+                        var filteredSuggestions = this.filter(suggestions, group.getKeys());
+
                         if (!filteredSuggestions.isEmpty()) {
                             var values = this.inputHandler.getValue(
                                     group.getKeys(),
@@ -37,7 +38,7 @@ final class ValuesResolver {
                             ).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
-                                this.chooseValuesByOne(storage, group, history);
+                                this.chooseValuesByOne(storage, group, suggestions);
                                 continue;
                             } else {
                                 //if user chose suggestion
@@ -47,7 +48,7 @@ final class ValuesResolver {
                                 continue;
                             }
                         } else {
-                            this.chooseValuesByOne(storage, group, history);
+                            this.chooseValuesByOne(storage, group, suggestions);
                             continue;
                         }
                     }

@@ -37,7 +37,7 @@ final class Execution {
         if (this.helpOrVersion()) {
             return;
         }
-        final ValuesStorage storage = this.resolver.resolve(new Arguments(this.args));
+        var storage = this.resolver.resolve(new Arguments(this.args));
         new ShellCommand(
                 this.args,
                 storage,

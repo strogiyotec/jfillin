@@ -51,7 +51,7 @@ final class Cache {
         }
         if (this.cache.has(tag)) {
             var list = this.cache.at(tag).at("values").asJsonList();
-            final boolean has = list.stream().anyMatch(json -> json.asMap().entrySet().containsAll(entry.entrySet()));
+            var has = list.stream().anyMatch(json -> json.asMap().entrySet().containsAll(entry.entrySet()));
             if (!has) {
                 this.cache.at(tag).at("values").add(Json.make(entry));
                 return true;
