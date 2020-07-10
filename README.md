@@ -72,3 +72,7 @@ mvn clean package
 It will create jfill executable in target/ folder . The size of this executable is 16MB(it's too big See [This issue](https://github.com/oracle/graal/issues/287))
 In order to decrease it you can use [upx](https://github.com/upx/upx) it will decrease the size to 4 MB.
 
+# TODO
+1. Add async tests
+2. Remove mockito
+3. Add encryption
