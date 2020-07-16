@@ -7,7 +7,7 @@
     <groupId>jfill</groupId>
     <artifactId>jfill</artifactId>
     <packaging>jar</packaging>
-    <version>1</version>
+    <version>2.0</version>
 
 
     <properties>
@@ -30,6 +30,26 @@
             </plugin>
         </plugins>
     </reporting>
+
+
+    <developers>
+        <developer>
+            <id>strogiyotec</id>
+            <name>Almas Abdrazak</name>
+            <email>almas337519@gmail.com</email>
+            <url>https://strogiyotec.github.io/</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <issueManagement>
+        <system>github</system>
+        <url>https://github.com/strogiyotec/jfillin</url>
+    </issueManagement>
+
 
     <dependencies>
         <dependency>
