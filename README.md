@@ -73,6 +73,6 @@ It will create jfill executable in target/ folder . The size of this executable 
 In order to decrease it you can use [upx](https://github.com/upx/upx) it will decrease the size to 4 MB.
 
 # TODO
-1. Add async tests
+1. ~~Add async tests~~
 2. Remove mockito
 3. Add encryption
