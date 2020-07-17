@@ -50,7 +50,7 @@ If you execute jfill without params you will see help instruction
 NAME:
         jfillin- fill your command and execute
 VERSION:
-        1.0
+        2.0
 AUTHOR:
         almas337519@gmail.com
 
