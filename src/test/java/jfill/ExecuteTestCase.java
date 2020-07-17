@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-import org.mockito.Mockito;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -25,7 +24,7 @@ final class ExecuteTestCase {
                         new Cache(Utils.configPath("plain_cache.json")),
                         new ProcessBuilder(),
                         print,
-                        new ValuesResolver(
+                        new UsingTerminalInput(
                                 new MockedInputHandler(Collections.emptyMap()),
                                 new Cache()
                         )
@@ -39,16 +38,14 @@ final class ExecuteTestCase {
     @DisplayName("Test that execution saves new values in the cache file")
     void testCachePersistence(@TempDir final Path tempDir) throws Exception {
         var outputFile = tempDir.resolve("output.txt");
-        var mock = Mockito.mock(ValuesResolver.class, Mockito.withSettings().stubOnly());
-        Mockito.when(mock.resolve(Mockito.any()))
-                .thenReturn(
-                        new ValuesStorage(
-                                Map.of(
-                                        Defaults.NO_TAG,
-                                        Map.of("msg", "Hello")
-                                )
+        var mock = new MockedValuesResolver(
+                new ValuesStorage(
+                        Map.of(
+                                Defaults.NO_TAG,
+                                Map.of("msg", "Hello")
                         )
-                );
+                )
+        );
         var cacheFile = tempDir.resolve("test.json");
         Files.write(cacheFile, "{}".getBytes());
         try (var outputStorage = new ByteArrayOutputStream()) {

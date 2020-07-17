@@ -25,7 +25,7 @@ final class ResolverWithTagTestCase {
 
     @Test
     void testResolverWithTag() throws IOException {
-        var values = new ValuesResolver(handler, new Cache(configPath("cache_with_tag.json")));
+        var values = new UsingTerminalInput(handler, new Cache(configPath("cache_with_tag.json")));
         var storage = values.resolve(new Arguments(
                 new String[]{
                         "echo",
