@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collections;
 import java.util.Map;
 
 final class ExecuteTestCase {
@@ -24,7 +25,10 @@ final class ExecuteTestCase {
                         new Cache(Utils.configPath("plain_cache.json")),
                         new ProcessBuilder(),
                         print,
-                        Mockito.mock(ValuesResolver.class)
+                        new ValuesResolver(
+                                new MockedInputHandler(Collections.emptyMap()),
+                                new Cache()
+                        )
                 ).execute();
                 Assertions.assertTrue(stream.toString().contains("jfillin 2.0"));
             }

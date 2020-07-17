@@ -28,6 +28,15 @@ final class Cache {
         this.path = file.getAbsolutePath();
     }
 
+    /**
+     * Ctor.
+     * Creates empty cache
+     */
+    Cache() {
+        this.cache = Json.nil();
+        this.path = null;
+    }
+
     Cache(final String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
             this.cache = Json.read(Files.readString(Path.of(path)));

@@ -20,7 +20,7 @@ public final class Main {
                 new ProcessBuilder().inheritIO(),
                 System.out,
                 new ValuesResolver(
-                        new InputHandler(
+                        new TerminalInput(
                                 new LineReaderImpl(
                                         TerminalBuilder.
                                                 builder()

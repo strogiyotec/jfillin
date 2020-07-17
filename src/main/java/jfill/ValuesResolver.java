@@ -11,11 +11,11 @@ final class ValuesResolver {
 
     private final Cache cache;
 
-    private final InputHandler inputHandler;
+    private final InputHandler terminalInput;
 
     ValuesResolver(final InputHandler input, final Cache cache) {
         this.cache = cache;
-        this.inputHandler = input;
+        this.terminalInput = input;
     }
 
     ValuesStorage resolve(final Arguments arguments) {
@@ -32,7 +32,7 @@ final class ValuesResolver {
                         var filteredSuggestions = this.filter(suggestions, group.getKeys());
 
                         if (!filteredSuggestions.isEmpty()) {
-                            var values = this.inputHandler.getValue(
+                            var values = this.terminalInput.getValue(
                                     group.getKeys(),
                                     new Suggestions.JoinedHistory(filteredSuggestions)
                             ).split(",");
@@ -58,7 +58,7 @@ final class ValuesResolver {
                 }
             }
             if (!storage.tagHasKey(Defaults.NO_TAG, arg.getKey())) {
-                var value = this.inputHandler
+                var value = this.terminalInput
                         .getValue(
                                 arg.getKey(),
                                 new Suggestions.Plain(
@@ -79,7 +79,7 @@ final class ValuesResolver {
             final List<Map<String, String>> history
     ) {
         group.getKeys().forEach(key -> {
-            var value = this.inputHandler.getValue(
+            var value = this.terminalInput.getValue(
                     key, new Suggestions.ByKey(history, key)
             );
             storage.store(group.getTag(), key, value);

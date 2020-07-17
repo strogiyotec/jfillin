@@ -3,11 +3,9 @@ package jfill;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
+import java.util.Map;
 
 final class ResolverTestCase {
 
@@ -15,27 +13,13 @@ final class ResolverTestCase {
 
     @BeforeAll
     static void initReader() {
-        handler = Mockito.mock(InputHandler.class, Mockito.withSettings().stubOnly());
-        //Default tag history
-        Mockito.when(
-                handler.getValue(
-                        Mockito.eq("surname"),
-                        Mockito.eq(new Suggestions.Plain(List.of("abdrazak")))
+        handler = new MockedInputHandler(
+                Map.of(
+                        "surname", "abdrazak",
+                        "name", "almas",
+                        "email", "almas337519@gmail.com"
                 )
-        ).thenReturn("abdrazak");
-        Mockito.when(
-                handler.getValue(
-                        Mockito.eq("name"),
-                        Mockito.eq(new Suggestions.Plain(List.of("almas")))
-                )
-        ).thenReturn("almas");
-        //Values without history
-        Mockito.when(
-                handler.getValue(
-                        Mockito.eq("email"),
-                        Mockito.eq(new Suggestions.Plain(Collections.emptyList()))
-                )
-        ).thenReturn("almas337519@gmail.com");
+        );
     }
 
     @Test
