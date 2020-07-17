@@ -58,7 +58,7 @@ final class Execution {
                         "\tjfill echo {{message}}",
                         "\tjfill psql -h {{psql:hostname}} -U {{psql:username}} -d {{psql:dbname}}",
                         "VERSION:",
-                        "\t1.0",
+                        "\t2.0",
                         "AUTHOR:",
                         "\talmas337519@gmail.com"
                 )
