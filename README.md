@@ -74,5 +74,5 @@ In order to decrease it you can use [upx](https://github.com/upx/upx) it will de
 
 # TODO
 1. ~~Add async tests~~
-2. Remove mockito
+2. ~~Remove mockito~~
 3. Add encryption
