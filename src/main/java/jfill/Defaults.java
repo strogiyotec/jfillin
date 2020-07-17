@@ -1,5 +1,6 @@
 package jfill;
 
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 public interface Defaults {
@@ -10,5 +11,9 @@ public interface Defaults {
 
     String VERSION = "jfillin 2.0";
 
-    String CACHE_PATH = System.getProperty("user.home") + "/.config/jfillin/fillin.json";
+    String CACHE_PATH = Optional.ofNullable(System.getenv("XDG_CONFIG_HOME"))
+            .or(() -> Optional.of(System.getProperty("user.home")))
+            .map(path -> path + "/.config/jfillin/fillin.json")
+            .get();
+
 }
