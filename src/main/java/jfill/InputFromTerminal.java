@@ -7,11 +7,11 @@ import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.List;
 
-final class TerminalInput implements InputHandler{
+final class InputFromTerminal implements InputHandler{
 
     private final LineReaderImpl reader;
 
-    TerminalInput(final LineReaderImpl reader) {
+    InputFromTerminal(final LineReaderImpl reader) {
         this.reader = reader;
     }
 
