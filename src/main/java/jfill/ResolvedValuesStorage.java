@@ -31,11 +31,24 @@ final class ResolvedValuesStorage {
         return this.storage.get(tag).containsKey(key);
     }
 
-    void store(final String tag, final String key, final String value) {
+    /**
+     * Store resolved values in memory.
+     *
+     * @param tag   Tag of the resolved value
+     * @param key   Name of the resolve value
+     * @param value Resolved value
+     */
+    void addResolvedValue(final String tag, final String key, final String value) {
         this.storage.get(tag).put(key, value.trim());
     }
 
-    String get(final String tag, final String key) {
+    /**
+     * Get resolved value by it's name and tag.
+     * @param tag Tag of resolved value
+     * @param key Name of the resolved value
+     * @return Resolved value
+     */
+    String getValueByTag(final String tag, final String key) {
         return this.storage.get(tag).get(key);
     }
 

@@ -34,8 +34,8 @@ final class ResolverWithTagTestCase {
                 }
         ));
         Assertions.assertAll(
-                () -> Assertions.assertEquals(storage.get("psql", "user"), "postgres"),
-                () -> Assertions.assertEquals(storage.get("psql", "port"), "5432")
+                () -> Assertions.assertEquals(storage.getValueByTag("psql", "user"), "postgres"),
+                () -> Assertions.assertEquals(storage.getValueByTag("psql", "port"), "5432")
         );
     }
 }

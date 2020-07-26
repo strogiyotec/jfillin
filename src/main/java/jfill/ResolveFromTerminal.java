@@ -44,7 +44,7 @@ final class ResolveFromTerminal implements ValuesResolver {
                             } else {
                                 //if user chose suggestion
                                 for (int i = 0; i < group.getKeys().size(); i++) {
-                                    storage.store(group.getTag(), group.getKeys().get(i), values[i]);
+                                    storage.addResolvedValue(group.getTag(), group.getKeys().get(i), values[i]);
                                 }
                                 continue;
                             }
@@ -68,7 +68,7 @@ final class ResolveFromTerminal implements ValuesResolver {
                                         )
                                 )
                         );
-                storage.store(Defaults.NO_TAG, arg.getKey(), value);
+                storage.addResolvedValue(Defaults.NO_TAG, arg.getKey(), value);
             }
         }
         return storage;
@@ -83,7 +83,7 @@ final class ResolveFromTerminal implements ValuesResolver {
             var value = this.terminalInput.getValue(
                     key, new Suggestions.ByKey(history, key)
             );
-            storage.store(group.getTag(), key, value);
+            storage.addResolvedValue(group.getTag(), key, value);
         });
     }
 

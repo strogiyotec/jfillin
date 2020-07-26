@@ -21,9 +21,9 @@ final class ShellCommand {
                     var split = key.split(":");
                     //doesn't have tag
                     if (split.length == 1) {
-                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.get(Defaults.NO_TAG, key)));
+                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.getValueByTag(Defaults.NO_TAG, key)));
                     } else {
-                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.get(split[0], split[1])));
+                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.getValueByTag(split[0], split[1])));
                     }
                 } else {
                     resolvedArgs.add(arg);

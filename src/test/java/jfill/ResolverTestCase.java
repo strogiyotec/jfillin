@@ -34,8 +34,8 @@ final class ResolverTestCase {
                         }
                 ));
         Assertions.assertAll(
-                () -> Assertions.assertEquals(storage.get(Defaults.NO_TAG, "name"), "almas"),
-                () -> Assertions.assertEquals(storage.get(Defaults.NO_TAG, "surname"), "abdrazak")
+                () -> Assertions.assertEquals(storage.getValueByTag(Defaults.NO_TAG, "name"), "almas"),
+                () -> Assertions.assertEquals(storage.getValueByTag(Defaults.NO_TAG, "surname"), "abdrazak")
         );
     }
 
@@ -48,6 +48,6 @@ final class ResolverTestCase {
                         "{{email}}"
                 }
         ));
-        Assertions.assertEquals(storage.get(Defaults.NO_TAG, "email"), "almas337519@gmail.com");
+        Assertions.assertEquals(storage.getValueByTag(Defaults.NO_TAG, "email"), "almas337519@gmail.com");
     }
 }
