@@ -24,7 +24,7 @@ final class ExecuteTestCase {
                         new Cache(Utils.configPath("plain_cache.json")),
                         new ProcessBuilder(),
                         print,
-                        new UsingTerminalInput(
+                        new ResolveFromTerminal(
                                 new MockedInputHandler(Collections.emptyMap()),
                                 new Cache()
                         )
@@ -39,7 +39,7 @@ final class ExecuteTestCase {
     void testCachePersistence(@TempDir final Path tempDir) throws Exception {
         var outputFile = tempDir.resolve("output.txt");
         var mock = new MockedValuesResolver(
-                new ValuesStorage(
+                new ResolvedValuesStorage(
                         Map.of(
                                 Defaults.NO_TAG,
                                 Map.of("msg", "Hello")

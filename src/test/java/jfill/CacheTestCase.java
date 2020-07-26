@@ -108,7 +108,7 @@ final class CacheTestCase {
      * Save given values in cache file.
      *
      * @param cacheFile Cache file
-     * @param values    UsingTerminalInput
+     * @param values    ResolveFromTerminal
      * @throws IOException If failed
      */
     private void saveValues(final File cacheFile, final Map<String, String> values) throws IOException {

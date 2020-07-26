@@ -7,24 +7,24 @@ import java.util.stream.Collectors;
 /**
  * Resolve arguments using input from terminal.
  */
-final class UsingTerminalInput implements ValuesResolver {
+final class ResolveFromTerminal implements ValuesResolver {
 
     private final Cache cache;
 
     private final InputHandler terminalInput;
 
-    UsingTerminalInput(final InputHandler input, final Cache cache) {
+    ResolveFromTerminal(final InputHandler input, final Cache cache) {
         this.cache = cache;
         this.terminalInput = input;
     }
 
     @Override
-    public ValuesStorage resolve(final Arguments arguments) {
-        var storage = new ValuesStorage();
-        storage.addTag(Defaults.NO_TAG);
+    public ResolvedValuesStorage resolve(final Arguments arguments) {
+        var storage = new ResolvedValuesStorage();
+        storage.addTagIfAbsent(Defaults.NO_TAG);
         for (var arg : arguments) {
             if (arg.hasTag()) {
-                storage.addTag(arg.getTag());
+                storage.addTagIfAbsent(arg.getTag());
                 //if not in the storage
                 if (!storage.tagHasKey(arg.getTag(), arg.getKey())) {
                     var group = new TagGroup(arguments, arg.getTag());
@@ -75,7 +75,7 @@ final class UsingTerminalInput implements ValuesResolver {
     }
 
     private void chooseValuesByOne(
-            final ValuesStorage storage,
+            final ResolvedValuesStorage storage,
             final TagGroup group,
             final List<Map<String, String>> history
     ) {

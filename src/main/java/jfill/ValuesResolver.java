@@ -2,5 +2,5 @@ package jfill;
 
 public interface ValuesResolver {
 
-    ValuesStorage resolve(Arguments arguments);
+    ResolvedValuesStorage resolve(Arguments arguments);
 }

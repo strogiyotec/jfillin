@@ -3,24 +3,27 @@ package jfill;
 import java.util.HashMap;
 import java.util.Map;
 
-final class ValuesStorage {
+/**
+ * Stores resolved values.
+ */
+final class ResolvedValuesStorage {
 
     /**
      * Storage.
      * Key is tag
-     * Value is map of argument-value
+     * Value is map where key is variable name and value is a variable's value
      */
     private final Map<String, Map<String, String>> storage;
 
-    ValuesStorage() {
+    ResolvedValuesStorage() {
         this.storage = new HashMap<>();
     }
 
-    ValuesStorage(final Map<String, Map<String, String>> storage) {
+    ResolvedValuesStorage(final Map<String, Map<String, String>> storage) {
         this.storage = storage;
     }
 
-    void addTag(final String tag) {
+    void addTagIfAbsent(final String tag) {
         this.storage.computeIfAbsent(tag, s -> new HashMap<>());
     }
 

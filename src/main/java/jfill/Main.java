@@ -19,7 +19,7 @@ public final class Main {
                 cache,
                 new ProcessBuilder().inheritIO(),
                 System.out,
-                new UsingTerminalInput(
+                new ResolveFromTerminal(
                         new TerminalInput(
                                 new LineReaderImpl(
                                         TerminalBuilder.
