@@ -36,22 +36,20 @@ final class Execution {
      * @throws Exception If failed
      */
     void execute() throws Exception {
-        if (this.helpOrVersion()) {
-            return;
+        if (!this.helpOrVersion()) {
+            try {
+                var resolvedValues = this.resolver.resolve(new Arguments(this.args));
+                new ShellCommand(
+                        this.args,
+                        resolvedValues,
+                        this.builder
+                ).execute();
+                //save new valuesResolver in cache
+                resolvedValues.flush(this.cache);
+            } catch (final UserInterruptException exc) {
+                //Do nothing
+            }
         }
-        var storage = this.resolver.resolve(new Arguments(this.args));
-        try {
-            new ShellCommand(
-                    this.args,
-                    storage,
-                    this.builder
-            ).execute();
-            //save new valuesResolver in cache
-            storage.flush(this.cache);
-        } catch (final UserInterruptException exc) {
-            //Do nothing
-        }
-        this.cache.save();
     }
 
     private void printHelp() {
@@ -75,6 +73,12 @@ final class Execution {
         this.output.println(Defaults.VERSION);
     }
 
+    /**
+     * Check if jfill should print help or version.
+     * If so then print it
+     *
+     * @return If help or version was printed
+     */
     private boolean helpOrVersion() {
         if (this.args.length == 0) {
             this.printHelp();
