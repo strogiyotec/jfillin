@@ -1,5 +1,7 @@
 package jfill;
 
+import org.jline.reader.UserInterruptException;
+
 import java.io.PrintStream;
 
 final class Execution {
@@ -38,13 +40,17 @@ final class Execution {
             return;
         }
         var storage = this.resolver.resolve(new Arguments(this.args));
-        new ShellCommand(
-                this.args,
-                storage,
-                this.builder
-        ).execute();
-        //save new valuesResolver in cache
-        storage.flush(this.cache);
+        try {
+            new ShellCommand(
+                    this.args,
+                    storage,
+                    this.builder
+            ).execute();
+            //save new valuesResolver in cache
+            storage.flush(this.cache);
+        } catch (final UserInterruptException exc) {
+            //Do nothing
+        }
         this.cache.save();
     }
 
