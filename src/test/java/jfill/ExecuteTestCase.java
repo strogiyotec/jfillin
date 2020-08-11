@@ -29,7 +29,7 @@ final class ExecuteTestCase {
                                 new Cache()
                         )
                 ).execute();
-                Assertions.assertTrue(stream.toString().contains("jfillin 2.0"));
+                Assertions.assertTrue(stream.toString().contains(Defaults.VERSION));
             }
         }
     }

@@ -1,5 +1,6 @@
 package jfill;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,7 +58,8 @@ final class ResolvedValuesStorage {
      *
      * @param cache Cache
      */
-    void flush(final Cache cache) {
+    void flush(final Cache cache) throws IOException {
         this.storage.forEach(cache::addEntry);
+        cache.save();
     }
 }
