@@ -2,7 +2,7 @@ package jfill;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -32,15 +32,13 @@ final class TagGroup {
     }
 
     TagGroup(final Arguments arguments, final String tag) {
-        var cache = new HashMap<String, Boolean>();
-        var keys = new ArrayList<String>(16);
+        var cache = new HashSet<String>();
         for (var arg : arguments) {
-            if (!cache.containsKey(arg.getKey()) && arg.hasTag() && arg.getTag().equals(tag)) {
-                cache.put(arg.getKey(), true);
-                keys.add(arg.getKey());
+            if (!cache.contains(arg.getKey()) && arg.hasTag() && arg.getTag().equals(tag)) {
+                cache.add(arg.getKey());
             }
         }
-        this.keys = keys.isEmpty() ? Collections.emptyList() : keys;
+        this.keys = cache.isEmpty() ? Collections.emptyList() : new ArrayList<>(cache);
         this.tag = tag;
     }
 
