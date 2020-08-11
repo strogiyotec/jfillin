@@ -1,8 +1,8 @@
 package jfill;
 
-public final class Utils {
+final class Utils {
 
-    static String configPath(final String fileName) {
+    static String testConfigPath(final String fileName) {
         return Utils.class.getClassLoader().getResource(fileName).getFile();
     }
 }

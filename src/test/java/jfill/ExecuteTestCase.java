@@ -21,7 +21,7 @@ final class ExecuteTestCase {
             try (var print = new PrintStream(stream)) {
                 new Execution(
                         new String[]{"-v"},
-                        new Cache(Utils.configPath("plain_cache.json")),
+                        new Cache(Utils.testConfigPath("plain_cache.json")),
                         new ProcessBuilder(),
                         print,
                         new ResolveFromTerminal(

@@ -28,7 +28,7 @@ public interface Suggestions {
         public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            final Suggestions plain = (Suggestions) o;
+            var plain = (Suggestions) o;
             return suggestions.equals(plain.get());
         }
 
@@ -54,7 +54,7 @@ public interface Suggestions {
         public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            final Suggestions plain = (Suggestions) o;
+            var plain = (Suggestions) o;
             return suggestions.equals(plain.get());
         }
 
@@ -82,7 +82,7 @@ public interface Suggestions {
         public boolean equals(final Object o) {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
-            final Suggestions plain = (Suggestions) o;
+            var plain = (Suggestions) o;
             return this.suggestions.equals(plain.get());
         }
 

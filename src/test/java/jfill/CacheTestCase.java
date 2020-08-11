@@ -20,7 +20,7 @@ final class CacheTestCase {
     @BeforeAll
     @DisplayName("Init cache")
     static void initConfig() throws IOException {
-        cache = new Cache(Utils.configPath("plain_cache.json"));
+        cache = new Cache(Utils.testConfigPath("plain_cache.json"));
     }
 
     @Test

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.Map;
 
-import static jfill.Utils.configPath;
+import static jfill.Utils.testConfigPath;
 
 final class ResolverWithTagTestCase {
 
@@ -25,7 +25,7 @@ final class ResolverWithTagTestCase {
 
     @Test
     void testResolverWithTag() throws IOException {
-        var values = new ResolveFromTerminal(handler, new Cache(configPath("cache_with_tag.json")));
+        var values = new ResolveFromTerminal(handler, new Cache(testConfigPath("cache_with_tag.json")));
         var storage = values.resolve(new Arguments(
                 new String[]{
                         "echo",

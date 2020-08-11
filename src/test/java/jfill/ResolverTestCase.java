@@ -24,7 +24,7 @@ final class ResolverTestCase {
 
     @Test
     void testValueFromHistory() throws IOException {
-        var values = new ResolveFromTerminal(handler, new Cache(Utils.configPath("cache_with_default_tag.json")));
+        var values = new ResolveFromTerminal(handler, new Cache(Utils.testConfigPath("cache_with_default_tag.json")));
         var storage = values.resolve(
                 new Arguments(
                         new String[]{
@@ -41,7 +41,7 @@ final class ResolverTestCase {
 
     @Test
     void testValueWithoutHistory() throws IOException {
-        var values = new ResolveFromTerminal(handler, new Cache(Utils.configPath("cache_with_default_tag.json")));
+        var values = new ResolveFromTerminal(handler, new Cache(Utils.testConfigPath("cache_with_default_tag.json")));
         var storage = values.resolve(new Arguments(
                 new String[]{
                         "echo",
