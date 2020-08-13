@@ -38,10 +38,13 @@ In this case you could use tags
 ```
 
 ### Test API
-Let's say you have an endpoint `/users` that gives you json of users and you have two servers.
+Let's say you have an endpoint `/users` that gives you a json of users and you have two servers.
 In local environment this url will look like this `localhost:8080/users` while
 in production server it will look like this `www.prod.com/users`.In this case you can
 use tag to group both urls (let's say tag names **api**)
+Here is an example
+
+![Curl](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/curl.gif)
 
 
 ![Gif1](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/tag.gif)
