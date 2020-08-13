@@ -9,7 +9,11 @@ In order to trigger completion press TAB
 In order to install it download the latest [release](https://github.com/strogiyotec/jfillin/releases/tag/1).
 It contains single executable. You don't need Java in your computer to run it.
 If you want to execute it from any directory then put executable into `/usr/local/bin` (You need a root access)
- 
+
+### Glibc
+In order to run it you have to have **glibc** version >=2.15.
+In order to check your current version run this command `ldd --version`
+
 # How to use ? 
 
 Just pass arguments to jfill that you want to fill.
