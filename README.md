@@ -41,7 +41,7 @@ In this case you could use tags
 Let's say you have an endpoint `/users` that gives you a json of users and you have two servers.
 In local environment this url will look like this `localhost:8080/users` while
 in production server it will look like this `www.prod.com/users`.In this case you can
-use tag to group both urls (let's say tag names **api**)
+use tag to group both urls (let's say tag name is **api**)
 Here is an example
 
 ![Curl](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/curl.gif)
