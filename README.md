@@ -27,7 +27,7 @@ Here is the gif\
 As you can see you can choose from the history pressing TAB.\
 When you finish jfill will execute the command for you
 
-## TAG
+### TAG
 But the main power comes when you use tags. Why?
 Some times you need to connect to psql but use different credentials depending
 on machine you are connecting(Prod,Stage).
@@ -36,6 +36,13 @@ In this case you could use tags
 ```
   jfill psql -U {{psql:user}} -P {{psql:host}}
 ```
+
+### Test API
+Let's say you have an endpoint `/users` that gives you json of users and you have two servers.
+In local environment this url will look like this `localhost:8080/users` while
+in production server it will look like this `www.prod.com/users`.In this case you can
+use tag to group both urls (let's say tag names **api**)
+
 
 ![Gif1](https://raw.githubusercontent.com/strogiyotec/jfillin/master/images/tag.gif)
 
