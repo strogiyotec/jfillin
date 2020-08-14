@@ -9,7 +9,7 @@ public interface Defaults {
 
     String NO_TAG = "noTag";
 
-    String VERSION = "jfillin 2.2";
+    String VERSION = "jfillin 2.2.1";
 
     String CACHE_PATH = Optional.ofNullable(System.getenv("XDG_CONFIG_HOME"))
             .or(() -> Optional.of(System.getProperty("user.home")))

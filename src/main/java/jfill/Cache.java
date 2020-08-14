@@ -5,7 +5,6 @@ import mjson.Json;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -51,12 +50,9 @@ final class Cache {
     }
 
     Cache(final String path) throws IOException {
-        if (Files.exists(Paths.get(path))) {
-            this.inMemoryCache = Json.read(Files.readString(Path.of(path)));
-        } else {
-            this.inMemoryCache = Json.object().set("noTag", Json.object().set("values", Json.array()));
-        }
-        this.path = path;
+        this(
+                new File(path)
+        );
     }
 
     /**
