@@ -63,8 +63,8 @@ final class ResolveFromTerminal implements ValuesResolver {
                         .getValue(
                                 arg.getKey(),
                                 new Suggestions.Plain(
-                                        this.cache.history(
-                                                new TagGroup(Defaults.NO_TAG, arg.getKey())
+                                        this.cache.historyPerKey(
+                                                Defaults.NO_TAG, arg.getKey()
                                         )
                                 )
                         );

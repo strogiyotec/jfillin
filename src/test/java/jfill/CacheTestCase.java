@@ -8,6 +8,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
@@ -23,11 +24,29 @@ final class CacheTestCase {
         cache = new Cache(Utils.testConfigPath("plain_cache.json"));
     }
 
+    /**
+     * Create file that doesn't exist.
+     *
+     * @param tempPath Temp path
+     * @throws IOException If failed
+     * @see <a href="https://github.com/strogiyotec/jfillin/issues/11">Github Issue</a>
+     */
+    @Test
+    @DisplayName("Cache will create new file if it doesn't exist")
+    void testFileCreated(@TempDir final Path tempPath) throws IOException {
+        //non existing file in non existing directory
+        final Path testPath = tempPath.resolve("tempdir/test_file.json");
+        Assertions.assertFalse(Files.exists(testPath));
+        //ctor will create new file if it doesn't exist
+        new Cache(testPath.toFile());
+        Assertions.assertTrue(Files.exists(testPath));
+    }
+
     @Test
     @DisplayName("Test that cache has two different values for given word")
     void testHistoryForWord() {
         Assertions.assertEquals(
-                cache.history(new TagGroup("psql", "user")),
+                cache.historyPerKey("psql", "user"),
                 List.of("postgres", "admin")
         );
 
@@ -37,7 +56,7 @@ final class CacheTestCase {
     @DisplayName("Test that cache doesn't exist for given word")
     void testHistoryIsEmpty() {
         Assertions.assertEquals(
-                cache.history(new TagGroup("psql", "connections")),
+                cache.historyPerKey("psql", "connections"),
                 Collections.emptyList()
         );
     }

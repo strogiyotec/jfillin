@@ -11,43 +11,56 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * History cache saved in json file.
+ * History inMemoryCache saved in json file.
  */
 final class Cache {
 
-    private final Json cache;
+    private final Json inMemoryCache;
 
     private final String path;
 
+    /**
+     * Ctor.
+     * Read given json file and stores all entries
+     * in inMemoryCache
+     * If json file doesn't exist then create it
+     *
+     * @param file Json file
+     * @throws IOException If failed
+     */
     Cache(final File file) throws IOException {
         if (file.exists()) {
-            this.cache = Json.read(Files.readString(file.toPath()));
+            this.inMemoryCache = Json.read(Files.readString(file.toPath()));
         } else {
-            this.cache = Json.object().set("noTag", Json.object().set("values", Json.array()));
+            this.inMemoryCache = Json.object().set("noTag", Json.object().set("values", Json.array()));
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            file.createNewFile();
         }
         this.path = file.getAbsolutePath();
     }
 
     /**
      * Ctor.
-     * Creates empty cache
+     * Creates empty inMemoryCache
      */
     Cache() {
-        this.cache = Json.nil();
+        this.inMemoryCache = Json.nil();
         this.path = null;
     }
 
     Cache(final String path) throws IOException {
         if (Files.exists(Paths.get(path))) {
-            this.cache = Json.read(Files.readString(Path.of(path)));
+            this.inMemoryCache = Json.read(Files.readString(Path.of(path)));
         } else {
-            this.cache = Json.object().set("noTag", Json.object().set("values", Json.array()));
+            this.inMemoryCache = Json.object().set("noTag", Json.object().set("values", Json.array()));
         }
         this.path = path;
     }
 
     /**
-     * Add new entry to cache.
+     * Add new entry to inMemoryCache.
      * Saves this entry in memory.
      *
      * @param tag   Tag
@@ -58,35 +71,36 @@ final class Cache {
         if (entry.isEmpty()) {
             return false;
         }
-        if (this.cache.has(tag)) {
-            var list = this.cache.at(tag).at("values").asJsonList();
+        if (this.inMemoryCache.has(tag)) {
+            var list = this.inMemoryCache.at(tag).at("values").asJsonList();
+            //if given entry doesn't exist in json file
             var has = list.stream().anyMatch(json -> json.asMap().entrySet().containsAll(entry.entrySet()));
             if (!has) {
-                this.cache.at(tag).at("values").add(Json.make(entry));
+                this.inMemoryCache.at(tag).at("values").add(Json.make(entry));
                 return true;
             }
         } else {
-            this.cache.set(tag, Json.object().set("values", Json.array()));
-            this.cache.at(tag).at("values").add(Json.make(entry));
+            //create new tag with given entry
+            this.inMemoryCache.set(tag, Json.object().set("values", Json.array()));
+            this.inMemoryCache.at(tag).at("values").add(Json.make(entry));
             return true;
         }
         return false;
     }
 
     /**
-     * Given group has only one key.
-     * Get history for given tag and single key
-     * with the same key are chosen
+     * Get history for key with given tag.
      *
-     * @param group Group
+     * @param key Key
+     * @param tag Tag
      * @return Cache for given group
      */
-    List<String> history(final TagGroup group) {
-        if (this.cache.has(group.getTag())) {
-            var cache = this.cache.at(group.getTag()).at("values").asJsonList();
+    List<String> historyPerKey(final String tag, final String key) {
+        if (this.inMemoryCache.has(tag)) {
+            var cache = this.inMemoryCache.at(tag).at("values").asJsonList();
             return cache.stream()
-                    .filter(json -> json.has(group.getKeys().get(0)))
-                    .map(json -> json.at(group.getKeys().get(0)).asString())
+                    .filter(json -> json.has(key))
+                    .map(json -> json.at(key).asString())
                     .collect(Collectors.toList());
         } else {
             return Collections.emptyList();
@@ -95,16 +109,16 @@ final class Cache {
 
     /**
      * Fetch history by given group.
-     * All cache entries with tag from given
+     * All inMemoryCache entries with tag from given
      * group will be selected
      *
      * @param group Group
      * @return History
      */
     List<Map<String, String>> historyPerGroup(final TagGroup group) {
-        if (this.cache.has(group.getTag())) {
+        if (this.inMemoryCache.has(group.getTag())) {
             var values = new ArrayList<Map<String, String>>();
-            var cache = this.cache.at(group.getTag()).at("values").asJsonList();
+            var cache = this.inMemoryCache.at(group.getTag()).at("values").asJsonList();
             for (var json : cache) {
                 var groupValues = new HashMap<String, String>();
                 for (var key : group.getKeys()) {
@@ -123,11 +137,11 @@ final class Cache {
     }
 
     /**
-     * Persist cache to file.
+     * Persist inMemoryCache to file.
      *
      * @throws IOException If failed
      */
     void save() throws IOException {
-        Files.write(Paths.get(this.path), this.cache.toString().getBytes());
+        Files.write(Paths.get(this.path), this.inMemoryCache.toString().getBytes());
     }
 }
