@@ -19,13 +19,6 @@ final class TagGroup {
      */
     private final String tag;
 
-    TagGroup(final String tag, final String key) {
-        this(
-                tag,
-                Collections.singletonList(key)
-        );
-    }
-
     TagGroup(final String tag, final List<String> keys) {
         this.tag = tag;
         this.keys = keys;

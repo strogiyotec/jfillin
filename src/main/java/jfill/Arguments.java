@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public final class Arguments implements Iterable<Argument> {
+final class Arguments implements Iterable<Argument> {
 
     private final List<Argument> arguments;
 

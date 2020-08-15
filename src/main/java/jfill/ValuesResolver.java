@@ -1,6 +1,6 @@
 package jfill;
 
-public interface ValuesResolver {
+ interface ValuesResolver {
 
     ResolvedValuesStorage resolve(Arguments arguments);
 }

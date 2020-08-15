@@ -1,6 +1,6 @@
 package jfill;
 
-public final class MockedValuesResolver implements ValuesResolver {
+final class MockedValuesResolver implements ValuesResolver {
 
     private final ResolvedValuesStorage storage;
 
