@@ -1,6 +1,5 @@
 language: java
 jdk: oraclejdk11
-script: ./mvnw clean test
 cache:
         direcories:
                 -$HOME/.m2
