@@ -1,5 +1,2 @@
 language: java
 jdk: oraclejdk11
-cache:
-        direcories:
-                -$HOME/.m2
