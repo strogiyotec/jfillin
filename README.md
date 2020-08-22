@@ -1,4 +1,6 @@
 # jfillin
+ ![jfill build CI](https://github.com/strogiyotec/jfillin/workflows/jfill%20build%20CI/badge.svg?branch=master)
+ 
  fill-in your command and execute it. Written in Pure Java 11 .
 
 # About
