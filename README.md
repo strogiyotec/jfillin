@@ -1,5 +1,6 @@
 # jfillin
  ![jfill build CI](https://github.com/strogiyotec/jfillin/workflows/jfill%20build%20CI/badge.svg?branch=master)
+ [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/strogiyotec/jfillin/master/LICENSE)
  
  fill-in your command and execute it. Written in Pure Java 11 .
 
