@@ -57,12 +57,13 @@ final class Execution {
                 String.join(
                         "\n",
                         "NAME:",
-                        "\tjfillin- fill your command and execute",
+                        "\tjfillin- fill in your command and execute",
                         "USAGE:",
                         "\tjfill echo {{message}}",
                         "\tjfill psql -h {{psql:hostname}} -U {{psql:username}} -d {{psql:dbname}}",
+                        "\tjfill curl {{server}}/users/id",
                         "VERSION:",
-                        "\t2.0",
+                        Defaults.VERSION,
                         "AUTHOR:",
                         "\talmas337519@gmail.com"
                 )

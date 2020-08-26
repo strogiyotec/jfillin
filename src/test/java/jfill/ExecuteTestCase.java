@@ -35,6 +35,29 @@ final class ExecuteTestCase {
     }
 
     @Test
+    @DisplayName("Test that help info is displayed")
+    void testHelp() throws Exception {
+        try (var stream = new ByteArrayOutputStream()) {
+            try (var print = new PrintStream(stream)) {
+                new Execution(
+                        new String[]{"-h"},
+                        new Cache(Utils.testConfigPath("plain_cache.json")),
+                        new ProcessBuilder(),
+                        print,
+                        new ResolveFromTerminal(
+                                new MockedInputHandler(Collections.emptyMap()),
+                                new Cache()
+                        )
+                ).execute();
+                Assertions.assertTrue(stream.toString().contains(Defaults.VERSION));
+                Assertions.assertTrue(stream.toString().contains("almas337519@gmail.com"));
+                Assertions.assertTrue(stream.toString().contains("USAGE"));
+
+            }
+        }
+    }
+
+    @Test
     @DisplayName("Test that execution saves new values in the cache file")
     void testCachePersistence(@TempDir final Path tempDir) throws Exception {
         var outputFile = tempDir.resolve("output.txt");
