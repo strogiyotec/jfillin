@@ -80,6 +80,71 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <!--Build jar file which is faster than native image-->
+        <profile>
+            <id>Jar</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-shade-plugin</artifactId>
+                        <version>3.2.2</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>shade</goal>
+                                </goals>
+                                <configuration>
+                                    <finalName>jfill</finalName>
+                                    <minimizeJar>true</minimizeJar>
+                                    <transformers>
+                                        <transformer
+                                                implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                            <mainClass>jfill.Main</mainClass>
+                                        </transformer>
+                                    </transformers>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>Native</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.graalvm.nativeimage</groupId>
+                        <artifactId>native-image-maven-plugin</artifactId>
+                        <version>20.0.0</version>
+                        <executions>
+                            <execution>
+                                <id>Native</id>
+                                <goals>
+                                    <goal>native-image</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <imageName>jfill</imageName>
+                            <mainClass>jfill.Main</mainClass>
+                            <buildArgs>
+                                -H:+PrintAnalysisCallTree
+                            </buildArgs>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -97,26 +162,6 @@
                             junit.jupiter.execution.parallel.mode.classes.default = concurrent
                         </configurationParameters>
                     </properties>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.graalvm.nativeimage</groupId>
-                <artifactId>native-image-maven-plugin</artifactId>
-                <version>20.0.0</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>native-image</goal>
-                        </goals>
-                        <phase>package</phase>
-                    </execution>
-                </executions>
-                <configuration>
-                    <imageName>jfill</imageName>
-                    <mainClass>jfill.Main</mainClass>
-                    <buildArgs>
-                        -H:+PrintAnalysisCallTree
-                    </buildArgs>
                 </configuration>
             </plugin>
         </plugins>
