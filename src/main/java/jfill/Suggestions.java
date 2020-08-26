@@ -3,94 +3,45 @@ package jfill;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public interface Suggestions {
+class Suggestions {
+
+    private final List<String> suggestions;
+
+    Suggestions(final List<String> suggestions) {
+        this.suggestions = suggestions;
+    }
+
+    Suggestions(final List<Map<String, String>> history, final String delimiter) {
+        this.suggestions = history.stream()
+                .map(map -> String.join(delimiter, map.values()))
+                .collect(Collectors.toList());
+    }
+
+    Suggestions(final List<Map<String, String>> history, Function<Map<String, String>, String> mapper) {
+        this.suggestions = history.stream()
+                .map(mapper)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
 
     /**
      * Get list of suggestions.
      *
      * @return Suggestions
      */
-    List<String> get();
-
-    /**
-     * Create suggestions from given list.
-     */
-    final class Plain implements Suggestions {
-        private final List<String> suggestions;
-
-        Plain(final List<String> history) {
-            this.suggestions = history;
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            var plain = (Suggestions) o;
-            return suggestions.equals(plain.get());
-        }
-
-        @Override
-        public List<String> get() {
-            return this.suggestions;
-        }
+    List<String> get() {
+        return this.suggestions;
     }
 
-    /**
-     * Create suggestions by joining values from history.
-     */
-    final class JoinedHistory implements Suggestions {
-        private final List<String> suggestions;
-
-        JoinedHistory(final List<Map<String, String>> history) {
-            this.suggestions = history.stream()
-                    .map(map -> String.join(",", map.values()))
-                    .collect(Collectors.toList());
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            var plain = (Suggestions) o;
-            return suggestions.equals(plain.get());
-        }
-
-        @Override
-        public List<String> get() {
-            return this.suggestions;
-        }
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        var plain = (Suggestions) o;
+        return this.suggestions.equals(plain.get());
     }
-
-    /**
-     * Create suggestions by selecting values by specified key.
-     */
-    final class ByKey implements Suggestions {
-
-        private final List<String> suggestions;
-
-        ByKey(final List<Map<String, String>> history, final String key) {
-            this.suggestions = history.stream()
-                    .map(map -> map.get(key))
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-        }
-
-        @Override
-        public boolean equals(final Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            var plain = (Suggestions) o;
-            return this.suggestions.equals(plain.get());
-        }
-
-        @Override
-        public List<String> get() {
-            return this.suggestions;
-        }
-    }
-
-
 }
+

@@ -35,7 +35,7 @@ final class ResolveFromTerminal implements ValuesResolver {
                         if (!filteredSuggestions.isEmpty()) {
                             var values = this.terminalInput.getValue(
                                     group.getKeys(),
-                                    new Suggestions.JoinedHistory(filteredSuggestions)
+                                    new Suggestions(filteredSuggestions, ",")
                             ).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
@@ -62,7 +62,7 @@ final class ResolveFromTerminal implements ValuesResolver {
                 var value = this.terminalInput
                         .getValue(
                                 arg.getKey(),
-                                new Suggestions.Plain(
+                                new Suggestions(
                                         this.cache.historyPerKey(
                                                 Defaults.NO_TAG, arg.getKey()
                                         )
@@ -81,7 +81,7 @@ final class ResolveFromTerminal implements ValuesResolver {
     ) {
         group.getKeys().forEach(key -> {
             var value = this.terminalInput.getValue(
-                    key, new Suggestions.ByKey(history, key)
+                    key, new Suggestions(history, map -> map.get(key))
             );
             storage.addResolvedValue(group.getTag(), key, value);
         });
