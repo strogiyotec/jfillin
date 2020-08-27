@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public final class MockedInputHandler implements InputHandler {
+final class MockedInputHandler implements InputHandler {
 
     private final Map<String, String> storage;
 
 
-    public MockedInputHandler(final Map<String, String> storage) {
+    MockedInputHandler(final Map<String, String> storage) {
         this.storage = storage;
     }
 

@@ -15,6 +15,7 @@ final class InputFromTerminal implements InputHandler{
         this.reader = reader;
     }
 
+    @Override
     public String getValue(final String word, final Suggestions suggestions) {
         this.reader.setCompleter(
                 new ArgumentCompleter(
@@ -27,6 +28,7 @@ final class InputFromTerminal implements InputHandler{
         return reader.readLine(String.format("%s: ", word));
     }
 
+    @Override
     public String getValue(final List<String> words, final Suggestions suggestions) {
         this.reader.setCompleter(new StringsCompleter(suggestions.get()));
         var prompt = String.join(", ", words);
