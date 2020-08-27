@@ -86,8 +86,13 @@ To build it run
 ```
 mvn clean package
 ```
-It will create jfill executable in target/ folder . The size of this executable is 16MB(it's too big See [This issue](https://github.com/oracle/graal/issues/287))
+It will create jfill executable in **target** folder . The size of this executable is 16MB(it's too big See [This issue](https://github.com/oracle/graal/issues/287))
 In order to decrease it you can use [upx](https://github.com/upx/upx) it will decrease the size to 4 MB.
+
+If you don't have a native-image in your machine then you can build a jar file using **maven profiles**
+```
+mvn package -P Jar
+```
 
 # TODO
 1. ~~Add async tests~~
