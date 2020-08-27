@@ -1,8 +1,9 @@
 # jfillin
  ![jfill build CI](https://github.com/strogiyotec/jfillin/workflows/jfill%20build%20CI/badge.svg?branch=master)
  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://raw.githubusercontent.com/strogiyotec/jfillin/master/LICENSE)
+ [![Coverage Status](https://coveralls.io/repos/github/strogiyotec/jfillin/badge.svg?branch=master)](https://coveralls.io/github/strogiyotec/jfillin?branch=master) 
  
- fill-in your command and execute it. Written in Pure Java 11 .
+ Fill-in your command and execute it. Written in Pure Java 11 .
 
 # About
 jfill stores the history of your commands in order to give you nice autocompletion\
