@@ -7,11 +7,11 @@ import org.jline.reader.impl.completer.StringsCompleter;
 
 import java.util.List;
 
-final class InputFromTerminal implements InputHandler{
+final class TerminalInput implements InputHandler{
 
     private final LineReaderImpl reader;
 
-    InputFromTerminal(final LineReaderImpl reader) {
+    TerminalInput(final LineReaderImpl reader) {
         this.reader = reader;
     }
 
@@ -25,14 +25,14 @@ final class InputFromTerminal implements InputHandler{
                         NullCompleter.INSTANCE
                 )
         );
-        return reader.readLine(String.format("%s: ", word));
+        return this.reader.readLine(String.format("%s: ", word));
     }
 
     @Override
     public String getValue(final List<String> words, final Suggestions suggestions) {
         this.reader.setCompleter(new StringsCompleter(suggestions.get()));
         var prompt = String.join(", ", words);
-        return reader.readLine(String.format("%s: ", prompt));
+        return this.reader.readLine(String.format("%s: ", prompt));
     }
 }
 
