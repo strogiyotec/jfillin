@@ -170,6 +170,7 @@
                             <mainClass>jfill.Main</mainClass>
                             <buildArgs>
                                 -H:+PrintAnalysisCallTree
+                                --no-fallback
                             </buildArgs>
                         </configuration>
                     </plugin>
