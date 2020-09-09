@@ -2,14 +2,14 @@ package jfill;
 
 final class MockedValuesResolver implements ValuesResolver {
 
-    private final ResolvedValuesStorage storage;
+    private final ResolvedValues storage;
 
-    MockedValuesResolver(final ResolvedValuesStorage storage) {
+    MockedValuesResolver(final ResolvedValues storage) {
         this.storage = storage;
     }
 
     @Override
-    public ResolvedValuesStorage resolve(final Arguments arguments) {
+    public ResolvedValues resolve(final Arguments arguments) {
         return this.storage;
     }
 }

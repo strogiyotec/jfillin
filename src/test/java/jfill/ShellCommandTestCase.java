@@ -17,7 +17,7 @@ final class ShellCommandTestCase {
         var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"echo", "{{msg1}}", "{{msg2}}"},
-                new ResolvedValuesStorage(
+                new ResolvedValues(
                         Map.of(
                                 Defaults.NO_TAG,
                                 Map.of(
@@ -40,7 +40,7 @@ final class ShellCommandTestCase {
         var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"echo", "{{tag1:msg1}}", "{{tag2:msg2}}"},
-                new ResolvedValuesStorage(
+                new ResolvedValues(
                         Map.of(
                                 "tag1",
                                 Map.of(
@@ -66,7 +66,7 @@ final class ShellCommandTestCase {
         var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"curl", "-I", "{{url}}.com"},
-                new ResolvedValuesStorage(
+                new ResolvedValues(
                         Map.of(
                                 Defaults.NO_TAG,
                                 Map.of(
@@ -87,7 +87,7 @@ final class ShellCommandTestCase {
         var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"echo", "{{url}}/users/1"},
-                new ResolvedValuesStorage(
+                new ResolvedValues(
                         Map.of(
                                 Defaults.NO_TAG,
                                 Map.of(
@@ -108,7 +108,7 @@ final class ShellCommandTestCase {
         var cacheFile = tempDir.resolve("out.txt").toFile();
         new ShellCommand(
                 new String[]{"echo", "localhost/{{path}}"},
-                new ResolvedValuesStorage(
+                new ResolvedValues(
                         Map.of(
                                 Defaults.NO_TAG,
                                 Map.of(

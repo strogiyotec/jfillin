@@ -7,7 +7,7 @@ import java.util.Map;
 /**
  * Stores resolved values.
  */
-final class ResolvedValuesStorage {
+final class ResolvedValues {
 
     /**
      * Storage.
@@ -16,11 +16,11 @@ final class ResolvedValuesStorage {
      */
     private final Map<String, Map<String, String>> storage;
 
-    ResolvedValuesStorage() {
+    ResolvedValues() {
         this.storage = new HashMap<>();
     }
 
-    ResolvedValuesStorage(final Map<String, Map<String, String>> storage) {
+    ResolvedValues(final Map<String, Map<String, String>> storage) {
         this.storage = storage;
     }
 

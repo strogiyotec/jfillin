@@ -19,14 +19,14 @@ final class ResolveFromTerminal implements ValuesResolver {
     }
 
     @Override
-    public ResolvedValuesStorage resolve(final Arguments arguments) {
-        var storage = new ResolvedValuesStorage();
-        storage.addTagIfAbsent(Defaults.NO_TAG);
+    public ResolvedValues resolve(final Arguments arguments) {
+        var resolvedValues = new ResolvedValues();
+        resolvedValues.addTagIfAbsent(Defaults.NO_TAG);
         for (var arg : arguments) {
             if (arg.hasTag()) {
-                storage.addTagIfAbsent(arg.getTag());
+                resolvedValues.addTagIfAbsent(arg.getTag());
                 //if not in the storage
-                if (!storage.tagHasKey(arg.getTag(), arg.getKey())) {
+                if (!resolvedValues.tagHasKey(arg.getTag(), arg.getKey())) {
                     var group = new TagGroup(arguments, arg.getTag());
                     if (!group.getKeys().isEmpty()) {
                         var suggestions = this.cache.historyPerGroup(group);
@@ -39,17 +39,17 @@ final class ResolveFromTerminal implements ValuesResolver {
                             ).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
-                                this.chooseValuesByOne(storage, group, suggestions);
+                                this.chooseValuesByOne(resolvedValues, group, suggestions);
                                 continue;
                             } else {
                                 //if user chose suggestion
                                 for (int i = 0; i < group.getKeys().size(); i++) {
-                                    storage.addResolvedValue(group.getTag(), group.getKeys().get(i), values[i]);
+                                    resolvedValues.addResolvedValue(group.getTag(), group.getKeys().get(i), values[i]);
                                 }
                                 continue;
                             }
                         } else {
-                            this.chooseValuesByOne(storage, group, suggestions);
+                            this.chooseValuesByOne(resolvedValues, group, suggestions);
                             continue;
                         }
                     }
@@ -58,7 +58,7 @@ final class ResolveFromTerminal implements ValuesResolver {
                     continue;
                 }
             }
-            if (!storage.tagHasKey(Defaults.NO_TAG, arg.getKey())) {
+            if (!resolvedValues.tagHasKey(Defaults.NO_TAG, arg.getKey())) {
                 var value = this.terminalInput
                         .getValue(
                                 arg.getKey(),
@@ -68,14 +68,14 @@ final class ResolveFromTerminal implements ValuesResolver {
                                         )
                                 )
                         );
-                storage.addResolvedValue(Defaults.NO_TAG, arg.getKey(), value);
+                resolvedValues.addResolvedValue(Defaults.NO_TAG, arg.getKey(), value);
             }
         }
-        return storage;
+        return resolvedValues;
     }
 
     private void chooseValuesByOne(
-            final ResolvedValuesStorage storage,
+            final ResolvedValues storage,
             final TagGroup group,
             final List<Map<String, String>> history
     ) {

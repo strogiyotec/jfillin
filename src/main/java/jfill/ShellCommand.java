@@ -9,7 +9,7 @@ final class ShellCommand {
 
     ShellCommand(
             final String[] args,
-            final ResolvedValuesStorage storage,
+            final ResolvedValues storage,
             final ProcessBuilder builder
     ) {
         this.command = () -> {

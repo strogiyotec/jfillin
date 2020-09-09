@@ -62,7 +62,7 @@ final class ExecuteTestCase {
     void testCachePersistence(@TempDir final Path tempDir) throws Exception {
         var outputFile = tempDir.resolve("output.txt");
         var mock = new MockedValuesResolver(
-                new ResolvedValuesStorage(
+                new ResolvedValues(
                         Map.of(
                                 Defaults.NO_TAG,
                                 Map.of("msg", "Hello")
