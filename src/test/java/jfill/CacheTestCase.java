@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 final class CacheTestCase {
 
@@ -47,7 +48,7 @@ final class CacheTestCase {
     void testHistoryForWord() {
         Assertions.assertEquals(
                 cache.historyPerKey("psql", "user"),
-                List.of("postgres", "admin")
+                Set.of("postgres", "admin")
         );
 
     }
@@ -57,7 +58,7 @@ final class CacheTestCase {
     void testHistoryIsEmpty() {
         Assertions.assertEquals(
                 cache.historyPerKey("psql", "connections"),
-                Collections.emptyList()
+                Collections.emptySet()
         );
     }
 

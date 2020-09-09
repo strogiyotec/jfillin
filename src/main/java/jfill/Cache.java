@@ -91,15 +91,15 @@ final class Cache {
      * @param tag Tag
      * @return Cache for given group
      */
-    List<String> historyPerKey(final String tag, final String key) {
+    Set<String> historyPerKey(final String tag, final String key) {
         if (this.inMemoryCache.has(tag)) {
             var cache = this.inMemoryCache.at(tag).at("values").asJsonList();
             return cache.stream()
                     .filter(json -> json.has(key))
                     .map(json -> json.at(key).asString())
-                    .collect(Collectors.toList());
+                    .collect(Collectors.toSet());
         } else {
-            return Collections.emptyList();
+            return Collections.emptySet();
         }
     }
 

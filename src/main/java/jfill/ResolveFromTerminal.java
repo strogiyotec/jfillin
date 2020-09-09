@@ -25,7 +25,7 @@ final class ResolveFromTerminal implements ValuesResolver {
         for (var arg : arguments) {
             if (arg.hasTag()) {
                 resolvedValues.addTagIfAbsent(arg.getTag());
-                //if not in the storage
+                //if value is already resolved, could happend when command contains duplicates
                 if (!resolvedValues.tagHasKey(arg.getTag(), arg.getKey())) {
                     var group = new TagGroup(arguments, arg.getTag());
                     if (!group.getKeys().isEmpty()) {
