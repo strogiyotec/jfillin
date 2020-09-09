@@ -1,14 +1,17 @@
 package jfill;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
-public final class SuggestionsTestCase {
-
+final class SuggestionsTestCase {
 
     @Test
+    @DisplayName("Remove duplicates")
     void testDuplicates() {
         var suggestions = new Suggestions(
                 List.of(
@@ -17,6 +20,9 @@ public final class SuggestionsTestCase {
                 ),
                 ","
         );
-        System.out.println(suggestions.get());
+        Assertions.assertEquals(
+                suggestions.get(),
+                Set.of("value")
+        );
     }
 }
