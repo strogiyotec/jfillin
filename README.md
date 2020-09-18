@@ -95,6 +95,21 @@ If you don't have a native-image in your machine then you can build a jar file u
 mvn package -P Jar
 ```
 
+## JAR vs Native-Image
+Here is the `time` output to see how native-image outperforms jar for cli apps
+
+**Jar**
+```
+time java -jar jfill.jar -v
+0.80s user 0.10s system 251% cpu 0.356 total
+```
+
+**Native-image**
+```
+time jfill -v
+ 0.02s user 0.01s system 104% cpu 0.030 total
+```
+
 # TODO
 1. ~~Add async tests~~
 2. ~~Remove mockito~~
