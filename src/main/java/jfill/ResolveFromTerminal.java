@@ -34,8 +34,8 @@ final class ResolveFromTerminal implements ValuesResolver {
 
                         if (!filteredSuggestions.isEmpty()) {
                             var values = this.terminalInput.getValue(
-                                    group.getKeys(),
-                                    new Suggestions(filteredSuggestions, ",")
+                                group.getKeys(),
+                                new Suggestions(filteredSuggestions, ",")
                             ).split(",");
                             //if user didn't choose suggestion or didn't write all values
                             if (values.length != group.getKeys().size()) {
@@ -60,14 +60,14 @@ final class ResolveFromTerminal implements ValuesResolver {
             }
             if (!resolvedValues.tagHasKey(Defaults.NO_TAG, arg.getKey())) {
                 var value = this.terminalInput
-                        .getValue(
-                                arg.getKey(),
-                                new Suggestions(
-                                        this.cache.historyPerKey(
-                                                Defaults.NO_TAG, arg.getKey()
-                                        )
-                                )
-                        );
+                    .getValue(
+                        arg.getKey(),
+                        new Suggestions(
+                            this.cache.historyPerKey(
+                                Defaults.NO_TAG, arg.getKey()
+                            )
+                        )
+                    );
                 resolvedValues.addResolvedValue(Defaults.NO_TAG, arg.getKey(), value);
             }
         }
@@ -75,13 +75,13 @@ final class ResolveFromTerminal implements ValuesResolver {
     }
 
     private void chooseValuesByOne(
-            final ResolvedValues storage,
-            final TagGroup group,
-            final List<Map<String, String>> history
+        final ResolvedValues storage,
+        final TagGroup group,
+        final List<Map<String, String>> history
     ) {
         group.getKeys().forEach(key -> {
             var value = this.terminalInput.getValue(
-                    key, new Suggestions(history, map -> map.get(key))
+                key, new Suggestions(history, map -> map.get(key))
             );
             storage.addResolvedValue(group.getTag(), key, value);
         });
@@ -96,17 +96,16 @@ final class ResolveFromTerminal implements ValuesResolver {
      * "port":"5432"
      * }
      * but keys have only one entry(port) then history will be skipped
-     *
      * @param history Cached history
-     * @param keys    Keys from cli
+     * @param keys Keys from cli
      * @return Filtered history
      */
     private List<Map<String, String>> filter(
-            final List<Map<String, String>> history,
-            final List<String> keys
+        final List<Map<String, String>> history,
+        final List<String> keys
     ) {
         return history.stream()
-                .filter(map -> map.keySet().containsAll(keys))
-                .collect(Collectors.toList());
+            .filter(map -> map.keySet().containsAll(keys))
+            .collect(Collectors.toList());
     }
 }

@@ -34,9 +34,8 @@ final class ResolvedValues {
 
     /**
      * Store resolved values in memory.
-     *
-     * @param tag   Tag of the resolved value
-     * @param key   Name of the resolve value
+     * @param tag Tag of the resolved value
+     * @param key Name of the resolve value
      * @param value Resolved value
      */
     void addResolvedValue(final String tag, final String key, final String value) {
@@ -55,7 +54,6 @@ final class ResolvedValues {
 
     /**
      * Flush all entries to cache.
-     *
      * @param cache Cache
      */
     void flush(final Cache cache) throws IOException {

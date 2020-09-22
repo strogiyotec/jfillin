@@ -8,9 +8,9 @@ final class ShellCommand {
     private final Callable<Void> command;
 
     ShellCommand(
-            final String[] args,
-            final ResolvedValues storage,
-            final ProcessBuilder builder
+        final String[] args,
+        final ResolvedValues storage,
+        final ProcessBuilder builder
     ) {
         this.command = () -> {
             var resolvedArgs = new ArrayList<String>(args.length);
@@ -30,8 +30,8 @@ final class ShellCommand {
                 }
             }
             var process = builder
-                    .command(resolvedArgs)
-                    .start();
+                .command(resolvedArgs)
+                .start();
             process.waitFor();
 
             //because callable has to return something

@@ -1,6 +1,9 @@
 package jfill;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -14,24 +17,15 @@ class Suggestions {
 
     Suggestions(final List<Map<String, String>> history, final String delimiter) {
         this.suggestions = history.stream()
-                .map(map -> String.join(delimiter, map.values()))
-                .collect(Collectors.toSet());
+            .map(map -> String.join(delimiter, map.values()))
+            .collect(Collectors.toSet());
     }
 
     Suggestions(final List<Map<String, String>> history, Function<Map<String, String>, String> mapper) {
         this.suggestions = history.stream()
-                .map(mapper)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
-    }
-
-    /**
-     * Get list of suggestions.
-     *
-     * @return Suggestions
-     */
-    Set<String> get() {
-        return this.suggestions;
+            .map(mapper)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
     }
 
     @Override
@@ -40,6 +34,14 @@ class Suggestions {
         if (o == null || getClass() != o.getClass()) return false;
         var plain = (Suggestions) o;
         return this.suggestions.equals(plain.get());
+    }
+
+    /**
+     * Get list of suggestions.
+     * @return Suggestions
+     */
+    Set<String> get() {
+        return this.suggestions;
     }
 }
 

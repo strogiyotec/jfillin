@@ -1,6 +1,6 @@
 package jfill;
 
- interface ValuesResolver {
+interface ValuesResolver {
 
     ResolvedValues resolve(Arguments arguments);
 }

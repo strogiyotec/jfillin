@@ -8,7 +8,6 @@ final class MockedInputHandler implements InputHandler {
 
     private final Map<String, String> storage;
 
-
     MockedInputHandler(final Map<String, String> storage) {
         this.storage = storage;
     }
@@ -16,8 +15,8 @@ final class MockedInputHandler implements InputHandler {
     @Override
     public String getValue(final List<String> words, final Suggestions suggestions) {
         return words.stream()
-                .map(this.storage::get)
-                .collect(Collectors.joining(","));
+            .map(this.storage::get)
+            .collect(Collectors.joining(","));
     }
 
     @Override

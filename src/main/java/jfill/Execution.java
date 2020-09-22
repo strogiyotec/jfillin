@@ -1,8 +1,7 @@
 package jfill;
 
-import org.jline.reader.UserInterruptException;
-
 import java.io.PrintStream;
+import org.jline.reader.UserInterruptException;
 
 final class Execution {
 
@@ -17,11 +16,11 @@ final class Execution {
     private final ValuesResolver resolver;
 
     Execution(
-            final String[] args,
-            final Cache cache,
-            final ProcessBuilder builder,
-            final PrintStream output,
-            final ValuesResolver resolver
+        final String[] args,
+        final Cache cache,
+        final ProcessBuilder builder,
+        final PrintStream output,
+        final ValuesResolver resolver
     ) {
         this.args = args;
         this.cache = cache;
@@ -32,7 +31,6 @@ final class Execution {
 
     /**
      * Execute jfill.
-     *
      * @throws Exception If failed
      */
     void execute() throws Exception {
@@ -40,9 +38,9 @@ final class Execution {
             try {
                 var resolvedValues = this.resolver.resolve(new Arguments(this.args));
                 new ShellCommand(
-                        this.args,
-                        resolvedValues,
-                        this.builder
+                    this.args,
+                    resolvedValues,
+                    this.builder
                 ).execute();
                 //save new valuesResolver in cache
                 resolvedValues.flush(this.cache);
@@ -52,32 +50,9 @@ final class Execution {
         }
     }
 
-    private void printHelp() {
-        this.output.println(
-                String.join(
-                        "\n",
-                        "NAME:",
-                        "\tjfillin- fill in your command and execute",
-                        "USAGE:",
-                        "\tjfill echo {{message}}",
-                        "\tjfill psql -h {{psql:hostname}} -U {{psql:username}} -d {{psql:dbname}}",
-                        "\tjfill curl {{server}}/users/id",
-                        "VERSION:",
-                        Defaults.VERSION,
-                        "AUTHOR:",
-                        "\talmas337519@gmail.com"
-                )
-        );
-    }
-
-    private void printVersion() {
-        this.output.println(Defaults.VERSION);
-    }
-
     /**
      * Check if jfill should print help or version.
      * If so then print it
-     *
      * @return If help or version was printed
      */
     private boolean helpOrVersion() {
@@ -95,6 +70,28 @@ final class Execution {
             }
         }
         return false;
+    }
+
+    private void printHelp() {
+        this.output.println(
+            String.join(
+                "\n",
+                "NAME:",
+                "\tjfillin- fill in your command and execute",
+                "USAGE:",
+                "\tjfill echo {{message}}",
+                "\tjfill psql -h {{psql:hostname}} -U {{psql:username}} -d {{psql:dbname}}",
+                "\tjfill curl {{server}}/users/id",
+                "VERSION:",
+                Defaults.VERSION,
+                "AUTHOR:",
+                "\talmas337519@gmail.com"
+            )
+        );
+    }
+
+    private void printVersion() {
+        this.output.println(Defaults.VERSION);
     }
 
 }

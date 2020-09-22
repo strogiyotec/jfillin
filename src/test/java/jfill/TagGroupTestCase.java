@@ -8,14 +8,14 @@ final class TagGroupTestCase {
     @Test
     void testGroup() {
         var group = new TagGroup(
-                new Arguments(
-                        new String[]{
-                                "psql",
-                                "-p {{psql:port}}",
-                                "-h {{psql:host}}",
-                        }
-                ),
-                "psql"
+            new Arguments(
+                new String[]{
+                    "psql",
+                    "-p {{psql:port}}",
+                    "-h {{psql:host}}",
+                }
+            ),
+            "psql"
         );
         Assertions.assertEquals(group.getTag(), "psql");
         Assertions.assertEquals(group.getKeys().size(), 2);

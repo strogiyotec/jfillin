@@ -1,12 +1,11 @@
 package jfill;
 
+import java.io.IOException;
+import java.util.Map;
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.UserInterruptException;
 import org.jline.reader.impl.LineReaderImpl;
 import org.jline.terminal.Terminal;
-
-import java.io.IOException;
-import java.util.Map;
 
 final class MockedLineReader extends LineReaderImpl {
 

@@ -1,13 +1,17 @@
 package jfill;
 
-import mjson.Json;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
+import mjson.Json;
 
 /**
  * History inMemoryCache saved in json file.
@@ -20,10 +24,24 @@ final class Cache {
 
     /**
      * Ctor.
+     * Creates empty inMemoryCache
+     */
+    Cache() {
+        this.inMemoryCache = Json.nil();
+        this.path = null;
+    }
+
+    Cache(final String path) throws IOException {
+        this(
+            new File(path)
+        );
+    }
+
+    /**
+     * Ctor.
      * Read given json file and stores all entries
      * in inMemoryCache
      * If json file doesn't exist then create it
-     *
      * @param file Json file
      * @throws IOException If failed
      */
@@ -41,25 +59,9 @@ final class Cache {
     }
 
     /**
-     * Ctor.
-     * Creates empty inMemoryCache
-     */
-    Cache() {
-        this.inMemoryCache = Json.nil();
-        this.path = null;
-    }
-
-    Cache(final String path) throws IOException {
-        this(
-                new File(path)
-        );
-    }
-
-    /**
      * Add new entry to inMemoryCache.
      * Saves this entry in memory.
-     *
-     * @param tag   Tag
+     * @param tag Tag
      * @param entry Entry to save
      * @return True if entry was saved in memory
      */
@@ -86,7 +88,6 @@ final class Cache {
 
     /**
      * Get history for key with given tag.
-     *
      * @param key Key
      * @param tag Tag
      * @return Cache for given group
@@ -95,9 +96,9 @@ final class Cache {
         if (this.inMemoryCache.has(tag)) {
             var cache = this.inMemoryCache.at(tag).at("values").asJsonList();
             return cache.stream()
-                    .filter(json -> json.has(key))
-                    .map(json -> json.at(key).asString())
-                    .collect(Collectors.toSet());
+                .filter(json -> json.has(key))
+                .map(json -> json.at(key).asString())
+                .collect(Collectors.toSet());
         } else {
             return Collections.emptySet();
         }
@@ -107,7 +108,6 @@ final class Cache {
      * Fetch history by given group.
      * All inMemoryCache entries with tag from given
      * group will be selected
-     *
      * @param group Group
      * @return History
      */
@@ -134,7 +134,6 @@ final class Cache {
 
     /**
      * Persist inMemoryCache to file.
-     *
      * @throws IOException If failed
      */
     void save() throws IOException {
