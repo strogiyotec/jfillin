@@ -2,14 +2,17 @@ package jfill;
 
 import java.util.ArrayList;
 import java.util.concurrent.Callable;
+import java.util.regex.Pattern;
 
 final class ShellCommand {
+
+    private static final Pattern JFILL_ARG = Pattern.compile("\\{\\{(.*)}}");
 
     private final Callable<Void> command;
 
     ShellCommand(
         final String[] args,
-        final ResolvedValues storage,
+        final ResolvedValues resolvedValues,
         final ProcessBuilder builder
     ) {
         this.command = () -> {
@@ -21,9 +24,9 @@ final class ShellCommand {
                     var split = key.split(":");
                     //doesn't have tag
                     if (split.length == 1) {
-                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.getValueByTag(Defaults.NO_TAG, key)));
+                        resolvedArgs.add(ShellCommand.JFILL_ARG.matcher(arg).replaceAll(resolvedValues.getValueByTag(Defaults.NO_TAG, key)));
                     } else {
-                        resolvedArgs.add(arg.replaceAll("\\{\\{(.*)}}", storage.getValueByTag(split[0], split[1])));
+                        resolvedArgs.add(ShellCommand.JFILL_ARG.matcher(arg).replaceAll(resolvedValues.getValueByTag(split[0], split[1])));
                     }
                 } else {
                     resolvedArgs.add(arg);

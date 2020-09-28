@@ -17,7 +17,7 @@ final class ResolvedValues {
     private final Map<String, Map<String, String>> storage;
 
     ResolvedValues() {
-        this.storage = new HashMap<>();
+        this.storage = new HashMap<>(16);
     }
 
     ResolvedValues(final Map<String, Map<String, String>> storage) {
@@ -25,7 +25,7 @@ final class ResolvedValues {
     }
 
     void addTagIfAbsent(final String tag) {
-        this.storage.computeIfAbsent(tag, s -> new HashMap<>());
+        this.storage.computeIfAbsent(tag, s -> new HashMap<>(16));
     }
 
     boolean tagHasKey(final String tag, final String key) {

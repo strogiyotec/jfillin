@@ -113,10 +113,10 @@ final class Cache {
      */
     List<Map<String, String>> historyPerGroup(final TagGroup group) {
         if (this.inMemoryCache.has(group.getTag())) {
-            var values = new ArrayList<Map<String, String>>();
+            var values = new ArrayList<Map<String, String>>(16);
             var cache = this.inMemoryCache.at(group.getTag()).at("values").asJsonList();
             for (var json : cache) {
-                var groupValues = new HashMap<String, String>();
+                var groupValues = new HashMap<String, String>(16);
                 for (var key : group.getKeys()) {
                     if (json.has(key)) {
                         groupValues.put(key, json.at(key).asString());

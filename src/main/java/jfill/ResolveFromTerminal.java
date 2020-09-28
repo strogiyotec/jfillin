@@ -18,6 +18,7 @@ final class ResolveFromTerminal implements ValuesResolver {
         this.terminalInput = input;
     }
 
+    //TODO simplify
     @Override
     public ResolvedValues resolve(final Arguments arguments) {
         var resolvedValues = new ResolvedValues();
@@ -54,10 +55,11 @@ final class ResolveFromTerminal implements ValuesResolver {
                         }
                     }
                 } else {
-                    //value is already in storage
+                    //value is already resolved
                     continue;
                 }
             }
+            //no tag, use default then
             if (!resolvedValues.tagHasKey(Defaults.NO_TAG, arg.getKey())) {
                 var value = this.terminalInput
                     .getValue(

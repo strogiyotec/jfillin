@@ -45,6 +45,7 @@ final class Execution {
                 //save new valuesResolver in cache
                 resolvedValues.flush(this.cache);
             } catch (final UserInterruptException exc) {
+                System.out.println("Jfill was interrupted");
                 //Do nothing
             }
         }

@@ -29,7 +29,7 @@ final class Argument {
     }
 
     String getKey() {
-        return key;
+        return this.key;
     }
 
     boolean hasTag() {
